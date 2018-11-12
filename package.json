@@ -12,5 +12,8 @@
     "devDependencies": {
         "cross-env": "^5.1",
         "laravel-mix": "^2.0"
+    },
+    "dependencies": {
+        "bulma": "^0.7.2"
     }
 }

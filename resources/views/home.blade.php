@@ -9,8 +9,7 @@
 @endsection
 
 @section ('content')
-    <h1>Blogemb !</h1>
-    <hr>
+@include ('header')
 
 @endsection
 
