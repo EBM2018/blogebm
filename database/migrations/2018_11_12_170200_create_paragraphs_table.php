@@ -15,9 +15,11 @@ class CreateParagraphsTable extends Migration
     {
         Schema::create('paragraphs', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('content');
             $table->integer('article_id')->unsigned();
             $table->foreign('article_id')->references('id')->on('articles');
             $table->integer('order')->unsigned();
+            $table->timestamps();
         });
     }
 
