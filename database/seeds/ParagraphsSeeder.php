@@ -15,8 +15,18 @@ class ParagraphsSeeder extends Seeder
     {
         Schema::disableForeignKeyConstraints();
         Paragraph::create([
-            'content' => 'testtest',
+            'content' => 'Un premier paragraphe',
             'article_id' => 1,
+            'order' => 1
+        ]);
+        Paragraph::create([
+            'content' => 'Un second paragraphe',
+            'article_id' => 1,
+            'order' => 2
+        ]);
+        Paragraph::create([
+            'content' => 'Un paragraphe sur cet autre article',
+            'article_id' => 2,
             'order' => 1
         ]);
         Schema::enableForeignKeyConstraints();
