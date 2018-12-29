@@ -9,3 +9,12 @@ header {
 hr {
     background-color: black;
 }
+
+#header-home-link {
+    color: inherit;
+    text-decoration: inherit;
+}
+
+#header-home-link:hover {
+    text-decoration: underline;
+}
