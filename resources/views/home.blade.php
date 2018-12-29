@@ -1,7 +1,7 @@
 @extends('template')
 
 @section('stylesheet')
-
+    {{asset('css/home.css')}}
 @endsection
 
 @section('title')
@@ -19,10 +19,12 @@
     @foreach($articles as $article)
     <div class="columns">
         <div class="column">
-            <div class="box">
-                <h6 class="title is-6">{{$article->title}}</h6>
-                <p>{{$article->summary}}</p>
-            </div>
+            <a class="article-link" href="/articles/{{$article->id}}">
+                <div class="box">
+                    <h6 class="title is-6">{{$article->title}}</h6>
+                    <p>{{$article->summary}}</p>
+                </div>
+            </a>
         </div>
     </div>
     @endforeach

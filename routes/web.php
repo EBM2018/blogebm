@@ -14,3 +14,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', 'HomeController@index');
+Route::redirect('/articles', '/');
+Route::get('articles/{id}', 'ArticleController@index');
