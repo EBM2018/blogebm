@@ -2,3 +2,11 @@
     color: inherit;
     text-decoration: inherit;
 }
+
+.article-link:hover {
+    text-decoration: underline;
+}
+
+.box:hover {
+    background-color: lightblue;
+}

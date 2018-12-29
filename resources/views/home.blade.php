@@ -13,21 +13,21 @@
 <div class="container is-fluid">
     <div class="columns">
         <div class="column">
-                <h4 class="title is-4"> Mes articles</h4>
+            <h4 class="title is-4">Mes articles</h4>
         </div>
     </div>
+    <div class="columns is-multiline">
     @foreach($articles as $article)
-    <div class="columns">
-        <div class="column">
+    <div class="column is-12">
+        <div class="box">
             <a class="article-link" href="/articles/{{$article->id}}">
-                <div class="box">
-                    <h6 class="title is-6">{{$article->title}}</h6>
-                    <p>{{$article->summary}}</p>
-                </div>
+                <h6 class="title is-6">{{$article->title}}</h6>
             </a>
+            <p>{{$article->summary}}</p>
         </div>
     </div>
     @endforeach
+    </div>
 </div>
 
 
