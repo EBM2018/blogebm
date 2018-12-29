@@ -18,7 +18,13 @@
     </div>
     <div class="columns">
         <div class="column">
-            Some content
+            @if($article->paragraphs->isEmpty())
+                <p><i>Pas de contenu</i></p>
+            @else
+                @foreach($article->paragraphs as $paragraph)
+                    <p>{{$paragraph->content}}</p>
+                @endforeach
+            @endif
         </div>
     </div>
 </div>

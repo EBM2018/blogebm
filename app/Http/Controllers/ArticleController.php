@@ -9,7 +9,7 @@ class ArticleController extends Controller
 {
     public function index($id)
     {
-        $article = Article::where('id', $id)->first();
+        $article = Article::with('paragraphs')->where('id', $id)->first();
         return view('article', compact('article'));
     }
 }
