@@ -2,7 +2,7 @@
     <header class="columns">
         <div class="column is-4">
             <h1 class="title">
-                <a id="header-home-link" href="/">Blogemb !</a>
+                <a id="header-home-link" href="/">{{ucfirst(str_shuffle('blogebm')) . " !"}}</a>
             </h1>
         </div>
         <div class="column is-4 is-offset-4">
