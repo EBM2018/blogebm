@@ -13,7 +13,8 @@
     <div class="container is-fluid">
         <div class="columns">
             <div class="column">
-                <form>
+                <form id="article-creation-form">
+                    @csrf
                     <div class="field">
                         <label class="label" for="title">{{ __("blogebm.title") }}</label>
                         <div class="control">
@@ -28,13 +29,11 @@
                     </div>
                     <label class="label">{{ __("blogebm.content") }}</label>
                     <a class="button is-primary" id="add-paragraph-button" type="submit">{{ __("blogebm.add_paragraph") }}</a>
-                    <div class="field" id="content-field">
-
-                    </div>
+                    <div class="field" id="content-field"></div>
                     <hr>
                     <div class="field">
                         <div class="control">
-                            <a type="submit" class="button is-link">
+                            <a type="submit" class="button is-link" id="article-creation-confirmation-button">
                                 {{ __('Confirm') }}
                             </a>
                         </div>
@@ -47,4 +46,5 @@
 
 @push('scripts')
     <script type="text/javascript" src="{{ asset('js/paragraphsManager.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/articleCreator.js') }}"></script>
 @endpush
