@@ -7,6 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 class Article extends Model
 {
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'title', 'author_id', 'summary'
+    ];
+
+    /**
      * Get the article's paragraphs.
      */
     public function paragraphs() {

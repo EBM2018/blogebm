@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Article;
 use App\Http\Requests\StoreArticleRequest;
+use App\Paragraph;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ArticleController extends Controller
 {
@@ -27,6 +30,21 @@ class ArticleController extends Controller
 
     public function store(StoreArticleRequest $request)
     {
-        //let's store
+        DB::transaction(function() {
+            $newArticle = Article::create([
+                'title' => request('title'),
+                'summary' => request('summary'),
+                'author_id' => Auth::user()->id
+            ]);
+            $order = 1;
+            foreach (request('paragraphs') as $paragraphContent) {
+                Paragraph::create([
+                    'content' => $paragraphContent,
+                    'article_id' => $newArticle->id,
+                    'order' => $order
+                ]);
+                $order++;
+            }
+        });
     }
 }
