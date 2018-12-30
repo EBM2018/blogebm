@@ -17,16 +17,16 @@
         </div>
     </div>
     <div class="columns is-multiline">
-    @foreach($articles as $article)
-    <div class="column is-12">
-        <div class="box">
-            <a class="article-link" href="/articles/{{$article->id}}">
-                <h6 class="title is-6">{{$article->title}}</h6>
-            </a>
-            <p>{{$article->summary}}</p>
+        @foreach($articles as $article)
+        <div class="column is-12">
+            <div class="box">
+                <a class="article-link" href="/articles/{{$article->id}}">
+                    <h6 class="title is-6">{{$article->title}}</h6>
+                </a>
+                <p>{{$article->summary}}</p>
+            </div>
         </div>
-    </div>
-    @endforeach
+        @endforeach
     </div>
 </div>
 
