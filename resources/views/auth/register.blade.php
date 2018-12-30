@@ -19,6 +19,17 @@
                         @csrf
 
                         <div class="field">
+                            <label for="name" class="label">{{ __('Name') }}</label>
+
+                            <div class=control">
+                                <input id="name" type="text" class="input {{ $errors->has('name') ? ' is-danger' : '' }}" name="name" value="{{ old('name') }}" required>
+                            </div>
+                            @if ($errors->has('name'))
+                                <p class="help is-danger">{{ $errors->first('name') }}</p>
+                            @endif
+                        </div>
+
+                        <div class="field">
                             <label for="email" class="label">{{ __('E-mail address') }}</label>
 
                             <div class=control">

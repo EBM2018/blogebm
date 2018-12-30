@@ -52,10 +52,6 @@
                                 <button type="submit" class="button is-link">
                                     {{ __('Login') }}
                                 </button>
-
-                                <a class="button is-text" href="{{ route('password.request') }}">
-                                    {{ __('Forgot your password ?') }}
-                                </a>
                             </div>
                         </div>
                     </form>
