@@ -41,3 +41,7 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+    <script type="text/javascript" src="{{ asset('js/paragraphsManager.js') }}"></script>
+@endpush
