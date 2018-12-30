@@ -10,7 +10,7 @@ return [
     |
     */
 
-    'last_articles' => 'Last articlew',
+    'last_articles' => 'Last articles',
     'new_article' => 'New article',
     'title' => 'Title',
     'summary' => 'Summary',
