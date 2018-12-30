@@ -17,5 +17,6 @@ return [
     'content' => 'Contenu',
     'add_paragraph' => 'Ajouter un paragraphe',
     'home_article_summary' => 'par :author le :date',
+    'article_page_summary' => 'Écrit par :author le :date',
     'last_updated_on' => 'dernière mise à jour le :date'
 ];

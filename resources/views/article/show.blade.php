@@ -15,10 +15,9 @@
         <div class="column">
             <p class="title is-4">{{$article->title}}</p>
             <p class="subtitle is-6">
-                Écrit par <i>{{$article->author->name}}</i>
-                le {{$article->created_at->format('d/m/Y')}}
+                {{ __('blogebm.article_page_summary', ['author' => $article->author->name, 'date' => $article->created_at->format('d/m/Y')]) }}
                 @if ($article->created_at != $article->updated_at)
-                    <i>(dernière mise à jour le {{$article->updated_at->format('d/m/Y')}})</i>
+                <i>({{ __('blogebm.last_updated_on', ['date' => $article->updated_at->format('d/m/Y')]) }})</i>
                 @endif
             </p>
         </div>
