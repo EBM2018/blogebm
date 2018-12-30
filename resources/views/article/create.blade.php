@@ -1,7 +1,7 @@
 @extends('template')
 
 @section('stylesheet')
-    {{asset('css/article-new.css')}}
+    {{asset('css/article.create.css')}}
 @endsection
 
 @section('title')

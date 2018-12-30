@@ -12,4 +12,8 @@ const mix = require('laravel-mix');
  */
 
 mix.js('resources/js/common.js', 'public/js')
-    .copy('resources/css/home.css', 'public/css/home.css');
+    .copy('resources/css/home.css', 'public/css/home.css')
+    .copy('resources/css/register.css', 'public/css/register.css')
+    .copy('resources/css/login.css', 'public/css/login.css')
+    .copy('resources/css/article.show.css', 'public/css/article.show.css')
+    .copy('resources/css/article.create.css', 'public/css/article.create.css');
