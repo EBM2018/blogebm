@@ -19,7 +19,7 @@
                     </div>
                     @else
                     <div class="level-item">
-                        Connecté comme {{Auth::user()->name}}
+                        {{ __('Connected as') }} {{Auth::user()->name}}
                     </div>
                     <div class="level-item">
                         <a class="button is-danger is-outlined" type="submit" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
