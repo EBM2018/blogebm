@@ -11,7 +11,21 @@ const paragraphsIDs = [];
 const addNewParagraphToContentField = () => {
     const newParagraphID = Math.max(...paragraphsIDs, 0) + 1;
     paragraphsIDs.push(newParagraphID);
-    contentField.innerHTML += `<textarea class="textarea" id="paragraph-${newParagraphID}" placeholder="..."></textarea>`;
+    const newTextarea = createNewTextareaElement(newParagraphID);
+    contentField.appendChild(newTextarea);
+};
+
+/**
+ * Creates a new textarea DOM element
+ * @param {int} id
+ * @returns {HTMLElement}
+ */
+const createNewTextareaElement = (id) => {
+    const newTextarea = document.createElement("textarea");
+    newTextarea.classList.add("textarea");
+    newTextarea.placeholder = "...";
+    newTextarea.id = `paragraph-${id}`;
+    return newTextarea;
 };
 
 /**
