@@ -14,7 +14,13 @@
     <div class="columns">
         <div class="column">
             <p class="title is-4">{{$article->title}}</p>
-            <p class="subtitle is-4">Écrit par <i>{{$article->author->name}}</i></p>
+            <p class="subtitle is-6">
+                Écrit par <i>{{$article->author->name}}</i>
+                le {{$article->created_at->format('d/m/Y')}}
+                @if ($article->created_at != $article->updated_at)
+                    <i>(dernière mise à jour le {{$article->updated_at->format('d/m/Y')}})</i>
+                @endif
+            </p>
         </div>
     </div>
     <div class="columns">

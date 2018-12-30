@@ -13,7 +13,7 @@
 <div class="container is-fluid">
     <div class="columns">
         <div class="column">
-            <h4 class="title is-4">Mes articles</h4>
+            <h4 class="title is-4">Derniers articles</h4>
         </div>
     </div>
     <div class="columns is-multiline">
@@ -21,7 +21,12 @@
         <div class="column is-12">
             <div class="box">
                 <p>
-                    <a class="title is-6 article-link" href="/articles/{{$article->id}}">{{$article->title}}</a> de <i>{{$article->author->name}}</i>
+                    <a class="title is-6 article-link" href="/articles/{{$article->id}}">{{$article->title}}</a>
+                    par <i>{{$article->author->name}}</i>
+                    le {{$article->created_at->format('d/m/Y')}}
+                    @if ($article->created_at != $article->updated_at)
+                    <i>(dernière mise à jour le {{$article->updated_at->format('d/m/Y')}})</i>
+                    @endif
                 </p>
                 <p>{{$article->summary}}</p>
             </div>

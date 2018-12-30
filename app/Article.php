@@ -21,7 +21,7 @@ class Article extends Model
     }
 
     public static function allSummarized() {
-        $articles = Article::with('author:id,name')->select('id', 'title', 'summary', 'author_id');
+        $articles = Article::with('author:id,name')->orderBy('updated_at', 'DESC');
         return $articles;
     }
 }
