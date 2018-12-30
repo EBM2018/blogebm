@@ -13,7 +13,8 @@
 <div class="container is-fluid">
     <div class="columns">
         <div class="column">
-            <h4 class="title is-4">{{$article->title}}</h4>
+            <p class="title is-4">{{$article->title}}</p>
+            <p class="subtitle is-4">Écrit par <i>{{$article->author->name}}</i></p>
         </div>
     </div>
     <div class="columns">

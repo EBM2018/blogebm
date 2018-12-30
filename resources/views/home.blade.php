@@ -20,9 +20,9 @@
         @foreach($articles as $article)
         <div class="column is-12">
             <div class="box">
-                <a class="article-link" href="/articles/{{$article->id}}">
-                    <h6 class="title is-6">{{$article->title}}</h6>
-                </a>
+                <p>
+                    <a class="title is-6 article-link" href="/articles/{{$article->id}}">{{$article->title}}</a> de <i>{{$article->author->name}}</i>
+                </p>
                 <p>{{$article->summary}}</p>
             </div>
         </div>
