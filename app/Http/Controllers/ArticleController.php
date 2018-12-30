@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Article;
+use App\Http\Requests\StoreArticleRequest;
 use Illuminate\Http\Request;
 
 class ArticleController extends Controller
@@ -22,5 +23,10 @@ class ArticleController extends Controller
     public function create()
     {
         return view('article.create');
+    }
+
+    public function store(StoreArticleRequest $request)
+    {
+        //let's store
     }
 }
