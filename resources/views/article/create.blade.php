@@ -28,6 +28,9 @@
                     </div>
                     <label class="label">{{ __("blogebm.content") }}</label>
                     <a class="button is-primary" id="add-paragraph-button" type="submit">{{ __("blogebm.add_paragraph") }}</a>
+                    <div class="field" id="content-field">
+
+                    </div>
                     <hr>
                     <div class="field">
                         <div class="control">
