@@ -38,7 +38,3 @@
 
 
 @endsection
-
-@push('scripts')
-
-@endpush

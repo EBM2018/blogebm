@@ -5,7 +5,7 @@
                 <div class="level-left">
                     <div class="level-item">
                         <h1 class="title">
-                            <a id="header-home-link" href="/">{{ucfirst(str_shuffle('blogebm')) . " !"}}</a>
+                            <a id="header-home-link" href="{{ route('home') }}">{{ucfirst(str_shuffle('blogebm')) . " !"}}</a>
                         </h1>
                     </div>
                 </div>

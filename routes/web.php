@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Auth::routes();
-Route::get('/', 'HomeController@index');
+Route::get('/', 'HomeController@index')->name('home');
 Route::redirect('/articles', '/');
-Route::get('articles/{id}', 'ArticleController@index');
+Route::get('articles/new', 'ArticleController@create')->name('article.create');
+Route::get('articles/{id}', 'ArticleController@show')->name('article.show');

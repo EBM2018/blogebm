@@ -11,6 +11,13 @@
 @section ('content')
 @include ('header')
 <div class="container is-fluid">
+    @auth
+    <div class="columns">
+        <div class="column">
+            <a class="button is-primary is-large" href="{{ route('article.create') }}" type="submit"><b>Nouvel article</b></a>
+        </div>
+    </div>
+    @endauth
     <div class="columns">
         <div class="column">
             <h4 class="title is-4">Derniers articles</h4>
@@ -21,7 +28,7 @@
         <div class="column is-12">
             <div class="box">
                 <p>
-                    <a class="title is-6 article-link" href="/articles/{{$article->id}}">{{$article->title}}</a>
+                    <a class="title is-6 article-link" href="{{ route('article.show', ['id' => $article->id]) }}">{{$article->title}}</a>
                     par <i>{{$article->author->name}}</i>
                     le {{$article->created_at->format('d/m/Y')}}
                     @if ($article->created_at != $article->updated_at)
