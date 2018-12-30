@@ -13,8 +13,15 @@ class Article extends Model
         return $this->hasMany('App\Paragraph')->orderBy('order');
     }
 
+    /**
+     * Get the article's author.
+     */
+    public function author() {
+        return $this->belongsTo('App\User', 'author_id');
+    }
+
     public static function allSummarized() {
-        $articles = Article::select('id', 'title', 'summary');
+        $articles = Article::with('author:id,name')->select('id', 'title', 'summary', 'author_id');
         return $articles;
     }
 }
