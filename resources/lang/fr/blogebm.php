@@ -19,5 +19,6 @@ return [
     'home_article_summary' => 'par :author le :date',
     'article_page_summary' => 'Écrit par :author le :date',
     'last_updated_on' => 'dernière mise à jour le :date',
-    'optional_field' => 'Ce champ est facultatif'
+    'optional_field' => 'Ce champ est facultatif',
+    'initial_content' => 'Contenu initial du nouveau paragraphe'
 ];

@@ -2,6 +2,7 @@ import {ready, getById, remove} from "./toolbox.js";
 
 const addParagraphButton = getById('add-paragraph-button');
 const contentField = getById('content-field');
+const newParagraphInitialInput = getById('new-paragraph-initial-input');
 const paragraphsIDs = [];
 
 /**
@@ -11,9 +12,12 @@ const paragraphsIDs = [];
 const addNewParagraphToContentField = () => {
     const newParagraphID = Math.max(...paragraphsIDs, 0) + 1;
     paragraphsIDs.push(newParagraphID);
-    const newTextarea = createNewTextareaElement(newParagraphID);
-    contentField.appendChild(newTextarea);
-    newTextarea.getElementsByClassName("paragraph")[0].focus();
+    const newParagraphField = createNewTextareaElement(newParagraphID);
+    contentField.appendChild(newParagraphField);
+    const newTextarea = newParagraphField.getElementsByClassName("paragraph")[0];
+    newTextarea.value = newParagraphInitialInput.value != null && newParagraphInitialInput.value.length > 0 ?
+        newParagraphInitialInput.value : "Nouveau paragraphe";
+    newTextarea.focus();
 };
 
 /**

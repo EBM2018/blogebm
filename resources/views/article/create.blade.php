@@ -28,7 +28,14 @@
                         </div>
                     </div>
                     <label class="label">{{ __("blogebm.content") }}</label>
-                    <a class="button is-primary" id="add-paragraph-button" type="submit">{{ __("blogebm.add_paragraph") }}</a>
+                    <div class="field is-grouped">
+                        <div class="control">
+                            <a class="button is-primary" id="add-paragraph-button" type="submit">{{ __("blogebm.add_paragraph") }}</a>
+                        </div>
+                        <div class="control is-expanded">
+                            <input class="input" id="new-paragraph-initial-input" placeholder="{{ __("blogebm.initial_content") }}"/>
+                        </div>
+                    </div>
                     <div class="field" id="content-field"></div>
                     <hr>
                     <div class="field">
