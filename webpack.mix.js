@@ -14,6 +14,7 @@ const mix = require('laravel-mix');
 mix.js('resources/js/common.js', 'public/js')
     .js('resources/js/paragraphsManager.js', 'public/js')
     .js('resources/js/articleCreator.js', 'public/js')
+    .js('resources/js/articleEditor.js', 'public/js')
     .copy('resources/css/home.css', 'public/css/home.css')
     .copy('resources/css/register.css', 'public/css/register.css')
     .copy('resources/css/login.css', 'public/css/login.css')

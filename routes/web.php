@@ -20,3 +20,4 @@ Route::redirect('/articles', '/');
 Route::get('articles/new', 'ArticleController@create')->name('article.create');
 Route::post('articles/new', 'ArticleController@store')->name('article.store');
 Route::get('articles/{id}', 'ArticleController@show')->name('article.show');
+Route::get('articles/{id}/edit', 'ArticleController@edit')->name('article.edit');

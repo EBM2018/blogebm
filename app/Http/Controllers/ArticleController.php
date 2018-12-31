@@ -47,4 +47,11 @@ class ArticleController extends Controller
             }
         });
     }
+
+    public function edit($id)
+    {
+        $article = Article::with(['paragraphs', 'author'])->where('id', $id)->first();
+        if (Auth::user()->id === $article->author->id) return view('article.edit', compact('article'));
+        return abort(401); // Authorized to access the edit page of an article a user doesn't own
+    }
 }
