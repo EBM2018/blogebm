@@ -46,9 +46,8 @@ class ParagraphController extends Controller
 
     public function update ($article_id, $paragraph_id, UpdateParagraphRequest $request) {
         // Receive a paragraph id with the new content
-        // TODO: fix this
         DB::transaction(function() use($paragraph_id) {
-            Paragraph::find($paragraph_id)->update(['content', request('content')]);
+            Paragraph::where('id', $paragraph_id)->update(['content' => request('content')]);
         });
     }
 
