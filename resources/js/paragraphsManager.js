@@ -10,13 +10,20 @@ const paragraphsIDs = [];
  * Stores the numeric id of the new paragraph in a list
  */
 const addNewParagraphToContentField = () => {
+    // Get a unique new paragraph id
     const newParagraphID = Math.max(...paragraphsIDs, 0) + 1;
     paragraphsIDs.push(newParagraphID);
+
+    // Add the new paragraph field
     const newParagraphField = createNewTextareaElement(newParagraphID);
     contentField.appendChild(newParagraphField);
     const newTextarea = newParagraphField.getElementsByClassName("paragraph")[0];
+
+    // Setup its default value
     newTextarea.value = newParagraphInitialInput.value != null && newParagraphInitialInput.value.length > 0 ?
         newParagraphInitialInput.value : "Nouveau paragraphe";
+
+    // Steal focus
     newTextarea.focus();
 };
 
@@ -28,31 +35,26 @@ const addNewParagraphToContentField = () => {
 const createNewTextareaElement = (id) => {
     // Textarea subnode
     const newTextarea = document.createElement("textarea");
-    newTextarea.classList.add("textarea");
-    newTextarea.classList.add("paragraph");
+    newTextarea.classList.add("textarea", "paragraph");
     newTextarea.placeholder = "...";
     newTextarea.id = `paragraph-${id}`;
 
     const textareaControl = document.createElement("div");
-    textareaControl.classList.add("control");
-    textareaControl.classList.add("is-expanded");
+    textareaControl.classList.add("control", "is-expanded");
     textareaControl.appendChild(newTextarea);
 
     // Close button subnode
     const textareaCloseButton = document.createElement("a");
-    textareaCloseButton.classList.add("delete");
-    textareaCloseButton.classList.add("close-paragraph-button");
+    textareaCloseButton.classList.add("delete", "close-paragraph-button");
 
     const textareaCloseButtonControl = document.createElement("div");
     textareaCloseButtonControl.classList.add("control");
-    textareaCloseButtonControl.style.display = 'none';
+    textareaCloseButtonControl.style.display = 'none'; // Hide the button by default
     textareaCloseButtonControl.appendChild(textareaCloseButton);
 
     // Main node
     const newField = document.createElement("div");
-    newField.classList.add("field");
-    newField.classList.add("has-addons");
-    newField.classList.add("paragraph-field");
+    newField.classList.add("field", "has-addons", "paragraph-field");
     newField.id = `paragraph-field-${id}`;
     newField.appendChild(textareaControl);
     newField.appendChild(textareaCloseButtonControl);

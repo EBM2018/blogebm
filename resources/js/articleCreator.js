@@ -19,12 +19,18 @@ const onConfirm = () => {
  * @returns {Object}
  */
 const prepareFormData = () => {
+    // Serialize the form
     const serializedForm = Array.from(new FormData(articleCreationForm));
+
+    // Format it as a PHP array (key => value)
     const formattedForm = {};
     for (const elem of serializedForm) formattedForm[elem[0]] = elem[1];
+
+    // Add the paragraphs (as they are not serialized)
     const paragraphs = [];
     for (const textarea of getByClass('paragraph')) paragraphs.push(textarea.value);
     formattedForm.paragraphs = paragraphs;
+
     return formattedForm;
 };
 
@@ -39,6 +45,7 @@ const sendForm = (form) => {
 };
 
 const handleFormErrors = (errors) => {
+    // TODO : Display errors below the relevant fields
     console.log(errors)
 };
 
