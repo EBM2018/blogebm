@@ -38,32 +38,25 @@
                 <form id="article-edition-form">
                     @csrf
                     <label class="label">{{ __("blogebm.content") }}</label>
-                    <div class="field is-grouped">
-                        <div class="control">
-                            <a class="button is-primary" id="add-paragraph-button" type="submit">{{ __("blogebm.add_paragraph") }}</a>
-                        </div>
-                        <div class="control is-expanded">
-                            <input class="input" id="new-paragraph-initial-input" placeholder="{{ __("blogebm.initial_content") }}"/>
-                        </div>
-                    </div>
                     <div class="field" id="content-field">
                         @foreach ($article->paragraphs as $paragraph)
-                        <div class="field has-addons paragraph-field" id="paragraph-field-{{$paragraph->id}}">
+                        <p class="lecture-mode-paragraph" data-type="old" data-id="{{$paragraph->id}}">{{$paragraph->content}}</p>
+{{--                        <div class="field has-addons paragraph-field" id="paragraph-field-{{$paragraph->id}}">
                             <div class="control is-expanded">
                                 <textarea class="textarea paragraph" placeholder="..." data-type="old" data-id="{{$paragraph->id}}">{{$paragraph->content}}</textarea>
                             </div>
                             <div class="control" style="display:none">
                                 <a class="delete close-paragraph-button" data-paragraph="{{$paragraph->id}}"></a>
                             </div>
-                        </div>
+                        </div>--}}
                         @endforeach
                     </div>
-                    <hr>
-                    <div class="field">
+                    <div class="field is-grouped">
                         <div class="control">
-                            <a type="submit" class="button is-link" id="article-creation-confirmation-button">
-                                {{ __('Confirm') }}
-                            </a>
+                            <a class="button is-primary" id="add-paragraph-button" type="submit">{{ __("blogebm.add_paragraph") }}</a>
+                        </div>
+                        <div class="control is-expanded">
+                            <input class="input" id="new-paragraph-initial-input" placeholder="{{ __("blogebm.initial_content") }}"/>
                         </div>
                     </div>
                 </form>
