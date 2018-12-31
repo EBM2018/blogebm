@@ -57,3 +57,19 @@ const createTextareaCloseButtonSubNode = (closeButton) => {
     textareaCloseButtonControl.appendChild(closeButton);
     return textareaCloseButtonControl;
 };
+
+export const createNewParagraphField = (id) => {
+    // Create paragraph node
+    const newParagraph = document.createElement("p");
+    newParagraph.classList.add("paragraph",  "lecture-mode-paragraph");
+    newParagraph.dataset.type = "old";
+    newParagraph.dataset.id = id;
+
+    // Create main node
+    const newField = document.createElement("div");
+    newField.classList.add("field", "has-addons", "paragraph-field");
+    newField.id = `paragraph-field-${id}`;
+    newField.appendChild(newParagraph);
+
+    return newField;
+};

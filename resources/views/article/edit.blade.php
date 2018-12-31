@@ -41,7 +41,7 @@
                     <div class="field" id="content-field">
                         @foreach ($article->paragraphs as $paragraph)
                             <div class="field has-addons paragraph-field" id="paragraph-field-{{$paragraph->id}}">
-                                <p class="lecture-mode-paragraph" data-type="old" data-id="{{$paragraph->id}}">{{$paragraph->content}}</p>
+                                <p class="lecture-mode-paragraph paragraph" data-type="old" data-id="{{$paragraph->id}}">{{$paragraph->content}}</p>
                             </div>
 {{--                        <div class="field has-addons paragraph-field" id="paragraph-field-{{$paragraph->id}}">
                             <div class="control is-expanded">
