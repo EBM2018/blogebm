@@ -16,10 +16,14 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 Route::get('/', 'HomeController@index')->name('home');
-Route::redirect('/articles', '/');
-Route::get('articles/new', 'ArticleController@create')->name('article.create');
-Route::post('articles/new', 'ArticleController@store')->name('article.store');
+Route::redirect('articles', '/');
+Route::get('articles/create', 'ArticleController@create')->name('article.create');
+Route::post('articles', 'ArticleController@store')->name('article.store');
 Route::get('articles/{id}', 'ArticleController@show')->name('article.show');
 Route::get('articles/{id}/edit', 'ArticleController@edit')->name('article.edit');
 Route::patch('article/{id}', 'ArticleController@update')->name('article.update');
-// TODO : DELETE route
+Route::delete('article/{id}', 'ArticleController@destroy')->name('article.destroy');
+Route::post('articles/{article_id}/paragraphs', 'ParagraphController@store')->name('paragraph.store');
+Route::patch('articles/{article_id}/paragraphs/{paragraph_id}', 'ParagraphController@update')->name('paragraph.patch');
+Route::patch('articles/{article_id}/paragraphs', 'ParagraphController@order')->name('paragraph.order');
+Route::delete('articles/{article_id}/paragraphs/{id}', 'ParagraphController@destroy')->name('paragraph.destroy');

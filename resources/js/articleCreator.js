@@ -6,7 +6,7 @@ const addParagraphButton = getById('add-paragraph-button');
 const articleCreationConfirmationButton = getById('article-creation-confirmation-button');
 const articleCreationForm = getById('article-creation-form');
 const homeURL = '/';
-const formReceiverURL = '/articles/new';
+const formReceiverURL = '/articles';
 
 /**
  * Handles a click on the confirm button
