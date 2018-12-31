@@ -13,13 +13,24 @@
     <div class="container is-fluid">
         <div class="columns">
             <div class="column">
-                <p class="title is-4">{{$article->title}} ({{ __('blogebm.edition_mode') }})</p>
-                <p class="subtitle is-6">
-                    {{ __('blogebm.article_page_summary', ['author' => $article->author->name, 'date' => $article->created_at->format('d/m/Y')]) }}
-                    @if ($article->created_at != $article->updated_at)
-                        <i>({{ __('blogebm.last_updated_on', ['date' => $article->updated_at->format('d/m/Y')]) }})</i>
-                    @endif
-                </p>
+                <div class="level">
+                    <div class="level-left">
+                        <div class="level-item">
+                            <div>
+                                <p class="title">{{$article->title}}</p>
+                                <p class="heading">
+                                    {{ __('blogebm.article_page_summary', ['author' => $article->author->name, 'date' => $article->created_at->format('d/m/Y')]) }}
+                                    @if ($article->created_at != $article->updated_at)
+                                        <i>({{ __('blogebm.last_updated_on', ['date' => $article->updated_at->format('d/m/Y')]) }})</i>
+                                    @endif
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="level-right">
+                        <a class="button is-primary" href="{{ route('article.show', ['id' => Route::current()->parameters["id"]]) }}">{{ __('blogebm.lecture_mode') }}</a>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="columns">

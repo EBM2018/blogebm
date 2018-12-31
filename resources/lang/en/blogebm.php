@@ -22,5 +22,6 @@ return [
     'optional_field' => 'This field is optional',
     'initial_content' => 'Initial content of the new paragraph',
     'article_edition' => 'Article edition',
-    'edition_mode' => 'Edition mode'
+    'edition_mode' => 'Edition mode',
+    'lecture_mode' => 'Lecture mode'
 ];
