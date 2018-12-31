@@ -58,6 +58,23 @@ class ArticleController extends Controller
 
     public function update(UpdateArticleRequest $request)
     {
-        // TODO : UPDATE logic
+        // One of the operations is not CRUD (change order)
+        // so I went with an article PATCH instead of manipulating a paragraph resource with 3 different operations.
+        switch(request('type')) {
+            case "CREATE_PARAGRAPH":
+                // Receive an article id with the new paragraph's content
+                // Answer with the new paragraph's id
+                break;
+            case "CHANGE_PARAGRAPH_CONTENT":
+                // Receive a paragraph id with the new content
+                break;
+            case "CHANGE_PARAGRAPHS_ORDER":
+                // Receive the complete list of paragraphs ids with their new position
+                break;
+            default:
+                // Type of the PATCH request is not part of the established enumeration
+                // This is a BAD REQUEST (400)
+                return abort(400);
+        }
     }
 }
