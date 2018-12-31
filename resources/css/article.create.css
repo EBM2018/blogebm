@@ -1,3 +1,7 @@
 #add-paragraph-button {
     margin-bottom: 5px;
 }
+
+.close-paragraph-button {
+    margin-left: 5px !important;
+}

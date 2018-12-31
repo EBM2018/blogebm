@@ -1,4 +1,4 @@
-import {ready, getById} from "./toolbox.js";
+import {ready, getById, remove} from "./toolbox.js";
 
 const addParagraphButton = getById('add-paragraph-button');
 const contentField = getById('content-field');
@@ -22,11 +22,40 @@ const addNewParagraphToContentField = () => {
  * @returns {HTMLElement}
  */
 const createNewTextareaElement = (id) => {
+    // Textarea subnode
     const newTextarea = document.createElement("textarea");
     newTextarea.classList.add("textarea");
+    newTextarea.classList.add("paragraph");
     newTextarea.placeholder = "...";
     newTextarea.id = `paragraph-${id}`;
-    return newTextarea;
+
+    const textareaControl = document.createElement("div");
+    textareaControl.classList.add("control");
+    textareaControl.classList.add("is-expanded");
+    textareaControl.appendChild(newTextarea);
+
+    // Close button subnode
+    const textareaCloseButton = document.createElement("a");
+    textareaCloseButton.classList.add("delete");
+    textareaCloseButton.classList.add("close-paragraph-button");
+
+    const textareaCloseButtonControl = document.createElement("div");
+    textareaCloseButtonControl.classList.add("control");
+    textareaCloseButtonControl.appendChild(textareaCloseButton);
+
+    // Main node
+    const newField = document.createElement("div");
+    newField.classList.add("field");
+    newField.classList.add("has-addons");
+    newField.classList.add("paragraph-field");
+    newField.id = `paragraph-field-${id}`;
+    newField.appendChild(textareaControl);
+    newField.appendChild(textareaCloseButtonControl);
+
+    // Add listener to close paragraph button
+    textareaCloseButton.addEventListener('click', () => remove(getById(`paragraph-field-${id}`)));
+
+    return newField;
 };
 
 /**

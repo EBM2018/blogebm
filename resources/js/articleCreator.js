@@ -1,9 +1,8 @@
-import {getById, ready} from "./toolbox.js";
+import {getByClass, getById, ready} from "./toolbox.js";
 import {HTTPVerbs, makeAjaxRequest} from "./ajax.js";
 
 const articleCreationConfirmationButton = getById('article-creation-confirmation-button');
 const articleCreationForm = getById('article-creation-form');
-const contentField = getById('content-field');
 const homeURL = '/';
 const formReceiverURL = '/articles/new';
 
@@ -24,9 +23,7 @@ const prepareFormData = () => {
     const formattedForm = {};
     for (const elem of serializedForm) formattedForm[elem[0]] = elem[1];
     const paragraphs = [];
-    for (const childNode of contentField.childNodes) {
-        if (childNode.classList != null && childNode.classList.contains('textarea')) paragraphs.push(childNode.value);
-    }
+    for (const textarea of getByClass('paragraph')) paragraphs.push(textarea.value);
     formattedForm.paragraphs = paragraphs;
     return formattedForm;
 };
