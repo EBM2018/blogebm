@@ -21,5 +21,6 @@ return [
     'last_updated_on' => 'dernière mise à jour le :date',
     'optional_field' => 'Ce champ est facultatif',
     'initial_content' => 'Contenu initial du nouveau paragraphe',
-    'article_edition' => 'Édition d\'article'
+    'article_edition' => 'Édition d\'article',
+    'edition_mode' => 'Mode d\'édition'
 ];

@@ -21,5 +21,6 @@ return [
     'last_updated_on' => 'last updated on :date',
     'optional_field' => 'This field is optional',
     'initial_content' => 'Initial content of the new paragraph',
-    'article_edition' => 'Article edition'
+    'article_edition' => 'Article edition',
+    'edition_mode' => 'Edition mode'
 ];

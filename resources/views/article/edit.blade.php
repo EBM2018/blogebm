@@ -13,20 +13,19 @@
     <div class="container is-fluid">
         <div class="columns">
             <div class="column">
+                <p class="title is-4">{{$article->title}} ({{ __('blogebm.edition_mode') }})</p>
+                <p class="subtitle is-6">
+                    {{ __('blogebm.article_page_summary', ['author' => $article->author->name, 'date' => $article->created_at->format('d/m/Y')]) }}
+                    @if ($article->created_at != $article->updated_at)
+                        <i>({{ __('blogebm.last_updated_on', ['date' => $article->updated_at->format('d/m/Y')]) }})</i>
+                    @endif
+                </p>
+            </div>
+        </div>
+        <div class="columns">
+            <div class="column">
                 <form id="article-edition-form">
                     @csrf
-                    <div class="field">
-                        <label class="label" for="title">{{ __("blogebm.title") }}</label>
-                        <div class="control">
-                            <input id="title" name="title" class="input" value="{{ $article->title }}" placeholder="" disabled/>
-                        </div>
-                    </div>
-                    <div class="field">
-                        <label class="label" for="summary">{{ __("blogebm.summary") }}</label>
-                        <div class="control">
-                            <textarea id="summary" name="summary" class="textarea" placeholder="{{ __("blogebm.optional_field") }}" disabled>{{$article->summary}}</textarea>
-                        </div>
-                    </div>
                     <label class="label">{{ __("blogebm.content") }}</label>
                     <div class="field is-grouped">
                         <div class="control">
