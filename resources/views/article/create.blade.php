@@ -5,7 +5,7 @@
 @endsection
 
 @section('title')
-    blogebm | Nouvel article
+    blogebm | {{ __("blogebm.new_article") }}
 @endsection
 
 @section ('content')
