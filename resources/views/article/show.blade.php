@@ -28,7 +28,11 @@
                     </div>
                 </div>
                 <div class="level-right">
-                    <a class="button is-primary" href="{{ route('article.edit', ['id' => Route::current()->parameters["id"]]) }}">{{ __('blogebm.edition_mode') }}</a>
+                    @auth
+                        @if(Auth::user()->id === $article->author->id)
+                        <a class="button is-primary" href="{{ route('article.edit', ['id' => Route::current()->parameters["id"]]) }}">{{ __('blogebm.edition_mode') }}</a>
+                        @endif
+                    @endauth
                 </div>
             </div>
         </div>
