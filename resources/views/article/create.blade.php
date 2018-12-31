@@ -24,7 +24,7 @@
                     <div class="field">
                         <label class="label" for="summary">{{ __("blogebm.summary") }}</label>
                         <div class="control">
-                            <textarea id="summary" name="summary" class="textarea" placeholder=""></textarea>
+                            <textarea id="summary" name="summary" class="textarea" placeholder="{{ __("blogebm.optional_field") }}"></textarea>
                         </div>
                     </div>
                     <label class="label">{{ __("blogebm.content") }}</label>

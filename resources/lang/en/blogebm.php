@@ -18,5 +18,6 @@ return [
     'add_paragraph' => 'Add a paragraph',
     'home_article_summary' => 'by :author on :date',
     'article_page_summary' => 'Written by :author on :date',
-    'last_updated_on' => 'last updated on :date'
+    'last_updated_on' => 'last updated on :date',
+    'optional_field' => 'This field is optional'
 ];
