@@ -1,13 +1,19 @@
 import {getByClass, getById, ready} from "./toolbox.js";
-import {createNewParagraphField, createNewTextareaField} from "./paragraphsToolbox.js";
+import {createNewParagraphField, createNewTextareaField} from "./paragraphsFormatter.js";
+import {addNewParagraphToContentField} from "./paragraphsCreator.js";
 
 const contentField = getById('content-field');
+const addParagraphButton = getById('add-paragraph-button');
 
 const onReady = () => {
     const paragraphs = getByClass('lecture-mode-paragraph');
-    for (const paragraph of paragraphs) {
+    for (const paragraph of paragraphs)
         paragraph.addEventListener('click', () => replaceParagraphWithTextarea(paragraph));
-    }
+    addParagraphButton.addEventListener('click', () => {
+        const newTextarea = addNewParagraphToContentField();
+        newTextarea.addEventListener('keydown', (event) => onTextareaKeyup(event, newTextarea.dataset.id));
+    });
+
 };
 
 const replaceParagraphWithTextarea = (paragraphNode) => {

@@ -52,6 +52,5 @@
 @endsection
 
 @push('scripts')
-    <script type="text/javascript" src="{{ asset('js/paragraphsManager.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/articleCreator.js') }}"></script>
 @endpush

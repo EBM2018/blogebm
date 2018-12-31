@@ -1,6 +1,8 @@
 import {getByClass, getById, ready} from "./toolbox.js";
 import {HTTPVerbs, makeAjaxRequest} from "./ajax.js";
+import {addNewParagraphToContentField} from "./paragraphsCreator.js";
 
+const addParagraphButton = getById('add-paragraph-button');
 const articleCreationConfirmationButton = getById('article-creation-confirmation-button');
 const articleCreationForm = getById('article-creation-form');
 const homeURL = '/';
@@ -49,4 +51,9 @@ const handleFormErrors = (errors) => {
     console.log(errors)
 };
 
-ready(() => articleCreationConfirmationButton.addEventListener('click', onConfirm));
+const onReady = () => {
+    addParagraphButton.addEventListener('click', addNewParagraphToContentField);
+    articleCreationConfirmationButton.addEventListener('click', onConfirm);
+};
+
+ready(onReady);

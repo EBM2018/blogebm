@@ -40,17 +40,9 @@
                     <label class="label">{{ __("blogebm.content") }}</label>
                     <div class="field" id="content-field">
                         @foreach ($article->paragraphs as $paragraph)
-                            <div class="field has-addons paragraph-field" id="paragraph-field-{{$paragraph->id}}">
-                                <p class="lecture-mode-paragraph paragraph" data-type="old" data-id="{{$paragraph->id}}">{{$paragraph->content}}</p>
-                            </div>
-{{--                        <div class="field has-addons paragraph-field" id="paragraph-field-{{$paragraph->id}}">
-                            <div class="control is-expanded">
-                                <textarea class="textarea paragraph" placeholder="..." data-type="old" data-id="{{$paragraph->id}}">{{$paragraph->content}}</textarea>
-                            </div>
-                            <div class="control" style="display:none">
-                                <a class="delete close-paragraph-button" data-paragraph="{{$paragraph->id}}"></a>
-                            </div>
-                        </div>--}}
+                        <div class="field has-addons paragraph-field" id="paragraph-field-{{$paragraph->id}}">
+                            <p class="lecture-mode-paragraph paragraph" data-type="old" data-id="{{$paragraph->id}}">{{$paragraph->content}}</p>
+                        </div>
                         @endforeach
                     </div>
                     <div class="field is-grouped">
@@ -68,6 +60,5 @@
 @endsection
 
 @push('scripts')
-    <script type="text/javascript" src="{{ asset('js/paragraphsManager.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/articleEditor.js') }}"></script>
 @endpush
