@@ -107,6 +107,12 @@ class ArticleController extends Controller
                    }
                 });
                 break;
+            case "DELETE_PARAGRAPH":
+                // Receive the id of the paragraph to delete
+                DB::transaction(function() {
+                    Paragraph::destroy(request('paragraph_id'));
+                });
+                break;
             default:
                 // Type of the PATCH request is not part of the established enumeration
                 // This is a BAD REQUEST (400)
