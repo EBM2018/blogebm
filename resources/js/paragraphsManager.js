@@ -23,6 +23,9 @@ const addNewParagraphToContentField = () => {
     newTextarea.value = newParagraphInitialInput.value != null && newParagraphInitialInput.value.length > 0 ?
         newParagraphInitialInput.value : "Nouveau paragraphe";
 
+    // Clear initial input after use
+    newParagraphInitialInput.value = "";
+
     // Steal focus
     newTextarea.focus();
 };
