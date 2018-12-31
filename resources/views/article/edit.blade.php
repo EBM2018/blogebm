@@ -40,7 +40,9 @@
                     <label class="label">{{ __("blogebm.content") }}</label>
                     <div class="field" id="content-field">
                         @foreach ($article->paragraphs as $paragraph)
-                        <p class="lecture-mode-paragraph" data-type="old" data-id="{{$paragraph->id}}">{{$paragraph->content}}</p>
+                            <div class="field has-addons paragraph-field" id="paragraph-field-{{$paragraph->id}}">
+                                <p class="lecture-mode-paragraph" data-type="old" data-id="{{$paragraph->id}}">{{$paragraph->content}}</p>
+                            </div>
 {{--                        <div class="field has-addons paragraph-field" id="paragraph-field-{{$paragraph->id}}">
                             <div class="control is-expanded">
                                 <textarea class="textarea paragraph" placeholder="..." data-type="old" data-id="{{$paragraph->id}}">{{$paragraph->content}}</textarea>
