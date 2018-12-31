@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Article;
+use App\Http\Requests\StoreParagraphRequest;
+use App\Http\Requests\UpdateParagraphRequest;
 use App\Paragraph;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class ParagraphController extends Controller
@@ -14,7 +17,9 @@ class ParagraphController extends Controller
         $this->middleware('auth');
     }
 
-    public function store($article_id) {
+    public function store($article_id, StoreParagraphRequest $request) {
+        if (Auth::user()->id !== Article::where('id', $article_id)->first()->author_id) abort(403, 'Unauthorized action.');
+
         $newParagraph = null;
         // Pass a reference to get the new paragraph id outside of the database transaction closure
         DB::transaction(function() use(&$newParagraph, $article_id) {
@@ -39,10 +44,11 @@ class ParagraphController extends Controller
         ]);
     }
 
-    public function update ($article_id, $paragraph_id) {
+    public function update ($article_id, $paragraph_id, UpdateParagraphRequest $request) {
         // Receive a paragraph id with the new content
+        // TODO: fix this
         DB::transaction(function() use($paragraph_id) {
-        Paragraph::find($paragraph_id)->update(['content', request('content')]);
+            Paragraph::find($paragraph_id)->update(['content', request('content')]);
         });
     }
 
