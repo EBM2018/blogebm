@@ -18,13 +18,13 @@
                     <div class="field">
                         <label class="label" for="title">{{ __("blogebm.title") }}</label>
                         <div class="control">
-                            <input id="title" name="title" class="input" value="{{ $article->title }}" placeholder=""/>
+                            <input id="title" name="title" class="input" value="{{ $article->title }}" placeholder="" disabled/>
                         </div>
                     </div>
                     <div class="field">
                         <label class="label" for="summary">{{ __("blogebm.summary") }}</label>
                         <div class="control">
-                            <textarea id="summary" name="summary" class="textarea" placeholder="{{ __("blogebm.optional_field") }}">{{$article->summary}}</textarea>
+                            <textarea id="summary" name="summary" class="textarea" placeholder="{{ __("blogebm.optional_field") }}" disabled>{{$article->summary}}</textarea>
                         </div>
                     </div>
                     <label class="label">{{ __("blogebm.content") }}</label>
@@ -40,7 +40,7 @@
                         @foreach ($article->paragraphs as $paragraph)
                         <div class="field has-addons paragraph-field" id="paragraph-field-{{$paragraph->id}}">
                             <div class="control is-expanded">
-                                <textarea class="textarea paragraph" placeholder="..." id="paragraph-{{$paragraph->id}}">{{$paragraph->content}}</textarea>
+                                <textarea class="textarea paragraph" placeholder="..." data-type="old" data-id="{{$paragraph->id}}">{{$paragraph->content}}</textarea>
                             </div>
                             <div class="control" style="display:none">
                                 <a class="delete close-paragraph-button" data-paragraph="{{$paragraph->id}}"></a>

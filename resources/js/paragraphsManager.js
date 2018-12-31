@@ -40,7 +40,7 @@ const createNewTextareaElement = (id) => {
     const newTextarea = document.createElement("textarea");
     newTextarea.classList.add("textarea", "paragraph");
     newTextarea.placeholder = "...";
-    newTextarea.id = `paragraph-${id}`;
+    newTextarea.dataset.type = "new";
 
     const textareaControl = document.createElement("div");
     textareaControl.classList.add("control", "is-expanded");
@@ -71,15 +71,6 @@ const createNewTextareaElement = (id) => {
 
 
     return newField;
-};
-
-/**
- * Gets a paragraph DOM element based on its numeric id
- * @param {int} id
- * @returns {Element}
- */
-const getParagraphByID = (id) => {
-    return getById(`paragraph-${id}`);
 };
 
 ready(() => addParagraphButton.addEventListener('click', addNewParagraphToContentField));
