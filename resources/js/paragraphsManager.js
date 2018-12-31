@@ -41,6 +41,7 @@ const createNewTextareaElement = (id) => {
 
     const textareaCloseButtonControl = document.createElement("div");
     textareaCloseButtonControl.classList.add("control");
+    textareaCloseButtonControl.style.display = 'none';
     textareaCloseButtonControl.appendChild(textareaCloseButton);
 
     // Main node
@@ -54,6 +55,11 @@ const createNewTextareaElement = (id) => {
 
     // Add listener to close paragraph button
     textareaCloseButton.addEventListener('click', () => remove(getById(`paragraph-field-${id}`)));
+
+    // Add listeners related to close button visibility
+    newField.addEventListener('mouseenter', () => textareaCloseButtonControl.style.display = null);
+    newField.addEventListener('mouseleave', () => textareaCloseButtonControl.style.display = 'none');
+
 
     return newField;
 };
