@@ -13,7 +13,7 @@ const addNewParagraphToContentField = () => {
     paragraphsIDs.push(newParagraphID);
     const newTextarea = createNewTextareaElement(newParagraphID);
     contentField.appendChild(newTextarea);
-    newTextarea.focus();
+    newTextarea.getElementsByClassName("paragraph")[0].focus();
 };
 
 /**
