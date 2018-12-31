@@ -7,7 +7,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Lang;
 
-class StoreArticleRequest extends FormRequest
+class UpdateArticleRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -17,10 +17,7 @@ class StoreArticleRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|string',
-            'summary' => 'nullable|string',
-            'paragraphs' => 'required|array',
-            'paragraphs.*' => 'string'
+
         ];
     }
 
@@ -33,6 +30,6 @@ class StoreArticleRequest extends FormRequest
     {
         return [];
         // TODO : Custom validation messages
-        //return Lang::get('validation/storeArticle');
+        //return Lang::get('validation/updateArticle');
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Article;
 use App\Http\Requests\StoreArticleRequest;
+use App\Http\Requests\UpdateArticleRequest;
 use App\Paragraph;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -53,5 +54,10 @@ class ArticleController extends Controller
         $article = Article::with(['paragraphs', 'author'])->where('id', $id)->first();
         if (Auth::user()->id === $article->author->id) return view('article.edit', compact('article'));
         return abort(401); // Authorized to access the edit page of an article a user doesn't own
+    }
+
+    public function update(UpdateArticleRequest $request)
+    {
+        // TODO : UPDATE logic
     }
 }
