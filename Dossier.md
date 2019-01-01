@@ -125,5 +125,90 @@ Vous pouvez vous connecter en tant que cet utilisateur ou créer votre propre co
     * Cela n'est possible que si aucun paragraphe n'est en cours d'édition
     * A chaque déplacement, une requête est envoyée au serveur pour mettre à jour l'ordre des paragraphes dans la base de données
 * Quand un textarea est survolé par la souris, une croix apparait en haut à droite de ce dernier, permettant de le supprimer
-    * Une requête est alors envoyée au serveur pour supprimer ce paragraphe de la base de données
+    * Dans ce cas, une requête est envoyée au serveur pour supprimer ce paragraphe de la base de données
+* L'interaction souhaitée avec la touche "Echap" n'a pas été implémentée car nous n'avons pas réellement compris ce qui était voulu, retourner sur la page de lecture sans valider les paragraphes en cours de modification donne le résultat souhaité
 
+#### Suppression d'article
+
+* En mode "Édition", l'utilisateur peut supprimer l'article d'un simple clic.
+* L'article et les paragraphes associés sont alors supprimés de la base de données.
+* Quand la suppression est un succès, l'utilisateur est redirigé vers la page d'accueil.
+
+## Implémentation
+
+### Back-End
+
+Je vais ici expliquer le fonctionnement Back-End afin que vous puissiez d'abord comprendre le fonctionnement de ce dernier et aussi pour que vous puissiez retrouver le travail réalisé parmi l'arborescence fourni de ce dernier.
+
+#### Présentation de la racine
+
+Passons en revue les dossiers à la racine
+* App : Contient la logique (contrôleurs, middlewares, service providers, validation des requêtes...)
+* Bootstrap : Contient les scripts de bootstrap (mise en cache de l'app..., non utilisé dans ce projet)
+* Config : Contient la configuration de l'application (presque pas utilisé dans ce projet à part la configuration de la langue sur laquelle nous reviendrons)
+* Database : Contient les fonctionnalités relatives aux bases de données
+    * Les factories pour peupler des tables en testant (non utilisé ici)
+    * Les migrations pour créer et modifier la structure des tables ainsi que leurs relations (Ce qui se cachait derrière le ```php artisan migrate```)
+    * Les seeds pour peupler des tables (en dev ou en prod) : C'est là que l'utilisateur EBM et les articles par défaut ont été décrit (Ce qui cachait derrière le ```--seed``` de la commande précédente)
+* Public : Contient la phase visible de l'application au reste du monde (les scripts bundlés, les feuilles de style...)
+* Resources : Contient les sources pour ce qui est déployé dans le dossier public (les scripts, les vues, les fichiers de traductions, les pré-processeurs css...)
+* Routes : Contient les routes de l'appli, c'est le point d'entrée de toute requête, dans notre cas, uniquement via le web
+* Storage : Contient du cache et les logs
+* Tests : Contient les tests de l'application (non utilisé ici)
+* Node_modules et vendor sont les dossiers contenant respectivement les dépendances js et PHP
+Et les fichiers intéressants à la racine :
+* .env : Contient les données d'environnement du projet (connexion à la BDD, aux serveurs de mail...)
+* composer.json : Liste les dépendances PHP
+* package.json : Liste les dépendances js
+* webpack.mix.js : Fichier de configuration Webpack simplifié pour Laravel (*Laravel Mix*)
+
+#### Chemin d'une requête
+
+On va donc voir comment cette architecture est traversée quand on reçoit une requête.  
+Imaginons que le serveur reçoit une demande de suppression d'article (le numéro 2 par exemple), il s'agit donc d'un DELETE sur l'adresse /articles/2.  
+
+##### Routing
+
+On arrive d'abord dans ```routes/web.php```, *Laravel* compare la requête avec les routes du haut vers la bas, jusqu'à trouver une qui correspond.  
+Dans notre cas, on s'arrête ici ```Route::delete('articles/{id}', 'ArticleController@destroy')->name('article.destroy');```  
+Cette ligne indique que la route pour cette requête et de faire appel à la méthode ```destroy``` du contrôlleur ```ArticleController```.  
+
+##### Validation
+
+On arrive alors dans ```app/Http/Controllers/ArticleController.php```.  
+On passe d'abord par la méthode ```__construct``` qui vérifie que l'utilisateur est bien authentifié (cet vérification est effectuée pour toutes les méthodes autres que ```show```).  
+Cette vérification est faite par un "middleware", c'est un script qui fait interface pour les contrôleurs, aucun middleware n'a ici été utilisé à part ```Auth``` qui gère les sessions.  
+Si l'utilisateur n'est pas connecté, un message d'erreur lui est renvoyé, sinon on continue.  
+La méthode ```destroy``` fait appel en paramètre à une requête de type ```DestroyArticleRequest```. En fait, avec le typage dynamique PHP, Laravel comprend que la requête qui est reçue est une requête de ce type et va d'abord lui faire passer les validations de ce type de requête avant d'attaquer le coeur de la méthode ```destroy```
+On se retrouve donc dans ```app/Http/Requests/DestroyArticleRequest.php```.  
+Dans un premier temps, ```authorize``` vérifie que l'utilisateur est bien autorisé à faire cette requête, qu'il est bien l'auteur de l'article qu'il souhaite supprimer.  
+Ensuite ```all``` ajoute l'id présent en paramètre de route dans le corps de la requête pour lui faire passer les règles de validations présentes dans ```rules```.  
+*Laravel* fournit des règles-type qui suffisent dans la plupart des cas, ici on a ```'id' => 'required|integer|exists:articles,id'```, on vérifie que l'id est présent, qu'il est entier et qu'il existe bien un article qui l'a pour id dans la base de données.  
+
+##### Contrôleur + Modèle
+
+Une fois toutes ses règles vérifiées et validées, le corps de ```destroy``` est exécuté : On y supprime l'article de la base de données via une manipulation du modèle Article.  
+Le modèle d'article se trouve sous ```app/Article.php```, il y est indiqué les champs qui peuvent être assignés dans les contrôleurs, des traitements précis et les relations entretenues avec les autres modèles.  
+Il n'y est pas précisé le nom de la table correspondante car *Laravel* reconnait qu'une table s'appelle "Article" au pluriel et lie implicitemen les deux.
+Suite au traitement dans le contrôlleur, une réponse standard 200 est envoyé au client.
+
+##### Cas d'une vue
+
+Dans le cas où on souhaite envoyer du HTML, par exemple la méthode ```show``` du controleur Article, on indique à quelle vue on fait appel et quelles données on "compacte" pour les fournir à cette vue.  
+On se rend alors dans ```resources/views/article/show.blade.php```. Il s'agit d'un fichier de template Blade à partir duquel sera produit le fichier HTML finale.  
+Ce template étend le template générale "Template" en en complétant certaines sections, les traitements PHP sont balisés par ```{{ }}``` ou abrégés des ```@quelquechose```.  
+On remarque qu'on y manipule directement la variable ```article``` que nous avons compacté avec la vue dans le contrôler.  
+Une fois tout le contenu agrégé et l'arbre de templates remonté, le tout est servi au client.
+
+##### Cas d'une règle de validation complexe
+
+Dans certains cas, les règles de validation proposées par Laravel ne sont pas suffisantes contrairement au cas vu dans la partie Validation.  
+Par exemple, quand on met à jour l'ordre des articles, on ne veut pas que la requête modifie l'ordre de paragraphes d'articles différents ou que les ordres ne soient pas des nombres consécutifs.  
+Ainsi dans ```app/Http/Requests/OrderParagraphRequest```, on remarque l'apparition de deux règles non standards ```is_order_list_valid``` et ```is_part_of_article```.  
+Ces règles sont déclarées au fournisseur de service de l'application sous ```app\Providers\AppServiceProvider```.  
+Les deux y sont déclarées sous cette forme :
+```
+Validator::extend('is_part_of_article', 'App\Validators\IsPartOfArticle@validate');
+Validator::extend('is_order_list_valid', 'App\Validators\IsOrderListValid@validate');
+```  
+On remarque alors que la logique de ses règles de validation est stockée sous ```App\Validators```.
