@@ -6,19 +6,21 @@ import {dragendHandler, dragstartHandler} from "./draggingToolbox.js";
 
 const contentField = getById('content-field');
 const addParagraphButton = getById('add-paragraph-button');
+const deleteArticleButton = getById('article-deletion-button');
 const baseUri = window.location.pathname.slice(0, window.location.pathname.length - "/edit".length); // Remove the /edit from the url
 const baseRequestUri = `${baseUri}/paragraphs`;
 const articleEditionForm = getById('article-edition-form');
 
 /**
  * An enumeration of request types made from the article edition page
- * @type {{CREATE_PARAGRAPH: number, CHANGE_PARAGRAPH_CONTENT: number, CHANGE_PARAGRAPHS_ORDER: number, DELETE_PARAGRAPH: number}}
+ * @type {{CREATE_PARAGRAPH: number, CHANGE_PARAGRAPH_CONTENT: number, CHANGE_PARAGRAPHS_ORDER: number, DELETE_PARAGRAPH: number, DELETE_ARTICLE: number}}
  */
 const requestTypes = {
     CREATE_PARAGRAPH: 0,
     CHANGE_PARAGRAPH_CONTENT: 1,
     CHANGE_PARAGRAPHS_ORDER: 2,
-    DELETE_PARAGRAPH: 3
+    DELETE_PARAGRAPH: 3,
+    DELETE_ARTICLE: 4
 };
 
 let numberOfParagraphsUnderEdition = 0;
@@ -45,6 +47,12 @@ const onReady = () => {
             prepareOrderChangeRequest));
         paragraphField.addEventListener('dragend', (event) => dragendHandler(event));
     }
+    deleteArticleButton.addEventListener('click', () => sendRequest(
+        requestTypes.DELETE_ARTICLE,
+        {_token: getCsrfToken()},
+        () => {document.location.href = '/';},
+        null
+    ));
 };
 
 /**
@@ -128,6 +136,10 @@ const sendRequest = (requestType, payload, successCallback, paragraph_id) => {
         case requestTypes.CHANGE_PARAGRAPHS_ORDER:
             HTTPVerb = HTTPVerbs.PATCH;
             formReceiverURL = baseRequestUri;
+            break;
+        case requestTypes.DELETE_ARTICLE:
+            HTTPVerb = HTTPVerbs.DELETE;
+            formReceiverURL = baseUri;
             break;
     }
     makeAjaxRequest(HTTPVerb, formReceiverURL, JSON.stringify(payload), successCallback, errorCallback);

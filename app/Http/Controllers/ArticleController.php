@@ -60,8 +60,13 @@ class ArticleController extends Controller
         // TODO: Change title / summary
     }
 
-    public function destroy()
+    public function destroy($id)
     {
-        // TODO: Article deletion
+        $article = Article::with('author')->where('id', $id)->first();
+        if ($article === null) return abort(404);
+        if (Auth::user()->id !== $article->author->id) return abort(403);
+        DB::transaction(function () use ($id) {
+            Article::destroy($id);
+        });
     }
 }

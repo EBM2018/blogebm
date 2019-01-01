@@ -28,7 +28,14 @@
                         </div>
                     </div>
                     <div class="level-right">
-                        <a class="button is-primary" href="{{ route('article.show', ['id' => Route::current()->parameters["id"]]) }}">{{ __('blogebm.lecture_mode') }}</a>
+                        <div class="level-item">
+                            <a class="button is-danger" id="article-deletion-button">
+                                {{ __('Delete') }}
+                            </a>
+                        </div>
+                        <div class="level-item">
+                            <a class="button is-primary" href="{{ route('article.show', ['id' => Route::current()->parameters["id"]]) }}">{{ __('blogebm.lecture_mode') }}</a>
+                        </div>
                     </div>
                 </div>
             </div>
