@@ -55,7 +55,7 @@ class ParagraphController extends Controller
         // Receive the complete list of paragraphs ids with their new position
         DB::transaction(function() {
             foreach (request('paragraphs') as $paragraph) {
-                Paragraph::find($paragraph->id)->update(['order' => $paragraph->order]);
+                Paragraph::find($paragraph["id"])->update(['order' => $paragraph["order"]]);
             }
         });
     }

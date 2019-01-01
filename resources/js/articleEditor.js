@@ -54,14 +54,23 @@ const onReady = () => {
 const onTextareaKeyup = (event, textarea) => {
     if (event.key === 'Enter') {
         event.preventDefault(); // Don't add a new line when pressing Enter
-        sendRequest(
-            textarea.dataset.type === "new" ? requestTypes.CREATE_PARAGRAPH : requestTypes.CHANGE_PARAGRAPH_CONTENT,
-            {content: textarea.value, _token: getCsrfToken()},
-            textarea.dataset.type === "new" ?
-                (response) => replaceTextareaWithParagraph(textarea, JSON.parse(response).paragraph_id)
-                : () => replaceTextareaWithParagraph(textarea),
-            textarea.dataset.id
-        );
+
+        const payload = {content: textarea.value, _token: getCsrfToken()};
+        if (textarea.dataset.type === "new") {
+            sendRequest(
+                requestTypes.CREATE_PARAGRAPH,
+                payload,
+                (response) => replaceTextareaWithParagraph(textarea, JSON.parse(response).paragraph_id),
+                null
+            );
+        } else {
+            sendRequest(
+                requestTypes.CHANGE_PARAGRAPH_CONTENT,
+                payload,
+                () => replaceTextareaWithParagraph(textarea),
+                textarea.dataset.id
+            );
+        }
     }
 };
 
@@ -69,7 +78,26 @@ const onTextareaKeyup = (event, textarea) => {
  * Prepares a paragraphs order change request
  */
 const prepareOrderChangeRequest = () => {
-    console.log("request !");
+    // Prepare payload
+    const paragraphsInfo = [];
+    let order = 1;
+    for (const paragraph of getByClass('paragraph')) {
+        paragraphsInfo.push({
+            id: parseInt(paragraph.dataset.id),
+            order: order
+        });
+        order++;
+    }
+    const payload = {
+        _token: getCsrfToken(),
+        paragraphs: paragraphsInfo
+    };
+
+    sendRequest(requestTypes.CHANGE_PARAGRAPHS_ORDER,
+        payload,
+        () => {},
+        null
+    );
 };
 
 /**
