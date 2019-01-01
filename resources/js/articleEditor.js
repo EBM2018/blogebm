@@ -5,10 +5,14 @@ import {HTTPVerbs, makeAjaxRequest} from "./ajax.js";
 
 const contentField = getById('content-field');
 const addParagraphButton = getById('add-paragraph-button');
-const baseUri = window.location.pathname.slice(0, window.location.pathname.length - "/edit".length);
+const baseUri = window.location.pathname.slice(0, window.location.pathname.length - "/edit".length); // Remove the /edit from the url
 const baseRequestUri = `${baseUri}/paragraphs`;
 const articleEditionForm = getById('article-edition-form');
 
+/**
+ * An enumeration of request types made from the article edition page
+ * @type {{CREATE_PARAGRAPH: number, CHANGE_PARAGRAPH_CONTENT: number, CHANGE_PARAGRAPHS_ORDER: number, DELETE_PARAGRAPH: number}}
+ */
 const requestTypes = {
     CREATE_PARAGRAPH: 0,
     CHANGE_PARAGRAPH_CONTENT: 1,
@@ -16,6 +20,9 @@ const requestTypes = {
     DELETE_PARAGRAPH: 3
 };
 
+/**
+ * The entry function called when DOM loading is finished.
+ */
 const onReady = () => {
     const paragraphs = getByClass('lecture-mode-paragraph');
     for (const paragraph of paragraphs)
@@ -26,18 +33,33 @@ const onReady = () => {
     });
 };
 
+/**
+ * Textarea keyup event handler
+ * @param {Event} event
+ * @param {Element} textarea
+ */
 const onTextareaKeyup = (event, textarea) => {
     if (event.key === 'Enter') {
         event.preventDefault(); // Don't add a new line when pressing Enter
         sendRequest(
             textarea.dataset.type === "new" ? requestTypes.CREATE_PARAGRAPH : requestTypes.CHANGE_PARAGRAPH_CONTENT,
             {content: textarea.value, _token: getCsrfToken()},
-            () => replaceTextareaWithParagraph(textarea),
+            textarea.dataset.type === "new" ?
+                (response) => replaceTextareaWithParagraph(textarea, JSON.parse(response).paragraph_id)
+                : () => replaceTextareaWithParagraph(textarea),
             textarea.dataset.id
         );
     }
 };
 
+/**
+ * Prepares and sends the page's ajax request
+ * @param {int} requestType The type of request, enumerated above
+ * @param {Object} payload The payload of the request
+ * @param {function} successCallback The function to call when the request is successful
+ * @param {int} paragraph_id A optional parameter precising the relevant paragraph id when modifying its content or
+ * deleting it
+ */
 const sendRequest = (requestType, payload, successCallback, paragraph_id) => {
     const errorCallback = (response) => handleFormErrors(JSON.parse(response).errors);
     let HTTPVerb, formReceiverURL;
@@ -62,6 +84,10 @@ const sendRequest = (requestType, payload, successCallback, paragraph_id) => {
     makeAjaxRequest(HTTPVerb, formReceiverURL, JSON.stringify(payload), successCallback, errorCallback);
 };
 
+/**
+ * Replaces a paragraph-type node tree with a textarea-type node tree
+ * @param {Element} paragraphNode
+ */
 const replaceParagraphWithTextarea = (paragraphNode) => {
     // Extract info from paragraph node
     const id = parseInt(paragraphNode.dataset.id);
@@ -78,11 +104,22 @@ const replaceParagraphWithTextarea = (paragraphNode) => {
     newTextarea.addEventListener('keydown', (event) => onTextareaKeyup(event, newTextarea));
 };
 
-const replaceTextareaWithParagraph = (paragraphTextarea) => {
+/**
+ * Replaces a textarea-type paragraph node tree with a paragraph-type node tree
+ * @param {Element} paragraphTextarea
+ * @param {int} newId An optional parameter used to force a new id on the paragraph to create
+ * This is used after sending a new paragraph to the database as the id that was generated on the page may not
+ * be the same as the one that will be given to the new paragraph in the database.
+ * This id is received in the response of the paragraph creation request.
+ * If this field was empty after creating a paragraph, the temporary id would be used when sending further modification
+ * requests rather than the actual id the paragraph has in the database.
+ */
+const replaceTextareaWithParagraph = (paragraphTextarea, newId) => {
     // Replace paragraph node
     const id = paragraphTextarea.dataset.id;
+    const paragraphReplacementId = newId != null ? newId : id;
     const paragraphField = getById(`paragraph-field-${id}`);
-    const newParagraphField = createNewParagraphField(id);
+    const newParagraphField = createNewParagraphField(paragraphReplacementId);
     const newParagraph = newParagraphField.getElementsByClassName("paragraph")[0];
     newParagraph.innerHTML = paragraphTextarea.value;
     contentField.replaceChild(newParagraphField, paragraphField);
@@ -91,11 +128,19 @@ const replaceTextareaWithParagraph = (paragraphTextarea) => {
     newParagraph.addEventListener('click', () => replaceParagraphWithTextarea(newParagraph));
 };
 
+/**
+ * Retrieves te Csrf token from the form
+ * @returns {FormDataEntryValue} The Csrf token
+ */
 const getCsrfToken = () => {
     const serializedForm = Array.from(new FormData(articleEditionForm));
     return serializedForm[0][1];
 };
 
+/**
+ * Handles form errors to give feedback to the user
+ * @param {Object} errors
+ */
 const handleFormErrors = (errors) => {
     // TODO : Display errors below the relevant fields
     console.log(errors)

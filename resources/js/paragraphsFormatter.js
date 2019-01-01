@@ -3,7 +3,7 @@ import {getById, remove} from "./toolbox.js";
 /**
  * Creates a new textarea DOM element
  * @param {{isNew: boolean, id: int}} params
- * @returns {HTMLElement}
+ * @returns {Element}
  */
 export const createNewTextareaField = (params) => {
     // Textarea subnode

@@ -46,11 +46,18 @@ const sendForm = (form) => {
     makeAjaxRequest(HTTPVerbs.POST, formReceiverURL, JSON.stringify(form), successCallback, errorCallback);
 };
 
+/**
+ * Handles form errors to give feedback to the user
+ * @param {Object} errors
+ */
 const handleFormErrors = (errors) => {
     // TODO : Display errors below the relevant fields
     console.log(errors)
 };
 
+/**
+ * The entry function called when DOM loading is finished.
+ */
 const onReady = () => {
     addParagraphButton.addEventListener('click', addNewParagraphToContentField);
     articleCreationConfirmationButton.addEventListener('click', onConfirm);

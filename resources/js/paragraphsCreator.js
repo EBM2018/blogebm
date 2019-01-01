@@ -6,7 +6,7 @@ const newParagraphInitialInput = getById('new-paragraph-initial-input');
 
 /**
  * Adds a new textarea-type paragraph to content field
- * Stores the numeric id of the new paragraph in a list
+ * @return {Element} The textarea element contained in the created node tree
  */
 export const addNewParagraphToContentField = () => {
     // Get a unique new paragraph id
@@ -32,6 +32,10 @@ export const addNewParagraphToContentField = () => {
     return newTextarea;
 };
 
+/**
+ * Collects the article paragraphs IDs
+ * @returns {Array}
+ */
 const collectParagraphsIDs = () => {
     const paragraphsIDs = [];
     for (const paragraph of getByClass('paragraph')) paragraphsIDs.push(paragraph.dataset.id)
