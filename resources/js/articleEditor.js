@@ -37,7 +37,7 @@ const onReady = () => {
         enableDragAndDrop(false);
     });
     for (const paragraphField of getByClass('paragraph-field')) {
-        paragraphField.addEventListener('dragstart', (event) => dragstartHandler(event));
+        paragraphField.addEventListener('dragstart', (event) => dragstartHandler(event, 'paragraph-field', contentField));
         paragraphField.addEventListener('dragend', (event) => dragendHandler(event));
     }
 };
@@ -147,6 +147,11 @@ const replaceTextareaWithParagraph = (paragraphTextarea, newId) => {
 
     // Add click listener
     newParagraph.addEventListener('click', () => replaceParagraphWithTextarea(newParagraph));
+
+    // Add dragging logic
+    newParagraphField.draggable = true;
+    newParagraphField.addEventListener('dragstart', (event) => dragstartHandler(event, 'paragraph-field', contentField));
+    newParagraphField.addEventListener('dragend', (event) => dragendHandler(event));
 
     numberOfParagraphsUnderEdition--;
     if (numberOfParagraphsUnderEdition === 0) enableDragAndDrop(true);

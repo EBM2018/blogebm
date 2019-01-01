@@ -1,10 +1,8 @@
-import {getByClass, getById, ready, remove} from "./toolbox.js";
+import {getByClass, getById, remove} from "./toolbox.js";
 
-const contentField = getById('content-field');
-
-export const dragstartHandler = (event) => {
+export const dragstartHandler = (event, draggableClassName, parentNode) => {
     event.dataTransfer.setData("text/plain", event.target.id);
-    addDropZones();
+    addDropZones(draggableClassName, parentNode);
 };
 
 export const dragendHandler = (event) => {
@@ -16,23 +14,23 @@ const dragoverHandler = (event) => {
     event.dataTransfer.dropEffect = "move"
 };
 
-const dropHandler = (event) => {
+const dropHandler = (event, parentNode) => {
     event.preventDefault();
     const data = event.dataTransfer.getData("text/plain");
-    contentField.replaceChild(getById(data), event.target);
+    parentNode.replaceChild(getById(data), event.target);
 };
 
-const addDropZones = () => {
+const addDropZones = (draggableClassName, parentNode) => {
     let i = 0;
-    for (const childNode of contentField.getElementsByClassName('paragraph-field')) {
-        const newDropZone = createDropZone();
+    for (const childNode of parentNode.getElementsByClassName(draggableClassName)) {
+        const newDropZone = createDropZone(parentNode);
         newDropZone.id = `dropzone-${i}`;
-        contentField.insertBefore(newDropZone, childNode);
+        parentNode.insertBefore(newDropZone, childNode);
         i++;
     }
-    const lastDropZone = createDropZone();
+    const lastDropZone = createDropZone(parentNode);
     lastDropZone.id = `dropzone-${i}`;
-    contentField.appendChild(lastDropZone);
+    parentNode.appendChild(lastDropZone);
 };
 
 const removeDropzones = () => {
@@ -40,11 +38,11 @@ const removeDropzones = () => {
     remove(dropzones);
 };
 
-const createDropZone = () => {
+const createDropZone = (parentNode) => {
     const dropZone = document.createElement('div');
     dropZone.classList.add('dropzone');
     dropZone.innerHTML = '---';
-    dropZone.addEventListener('drop', (event) => dropHandler(event));
+    dropZone.addEventListener('drop', (event) => dropHandler(event, parentNode));
     dropZone.addEventListener('dragover', (event) => dragoverHandler(event));
     return dropZone;
 };
