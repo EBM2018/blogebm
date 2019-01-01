@@ -1,4 +1,5 @@
 import {getById, remove} from "./toolbox.js";
+import {dragendHandler, dragstartHandler} from "./draggingToolbox.js";
 
 /**
  * Creates a new textarea DOM element
@@ -70,6 +71,11 @@ export const createNewParagraphField = (id) => {
     newField.classList.add("field", "has-addons", "paragraph-field");
     newField.id = `paragraph-field-${id}`;
     newField.appendChild(newParagraph);
+
+    // Add dragging logic
+    newField.draggable = true;
+    newField.addEventListener('dragstart', (event) => dragstartHandler(event));
+    newField.addEventListener('dragend', (event) => dragendHandler(event));
 
     return newField;
 };

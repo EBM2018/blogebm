@@ -1,11 +1,13 @@
 import {getByClass, getById, ready, remove} from "./toolbox.js";
 
-const dragstartHandler = (event) => {
+const contentField = getById('content-field');
+
+export const dragstartHandler = (event) => {
     event.dataTransfer.setData("text/plain", event.target.id);
     addDropZones();
 };
 
-const dragendHandler = (event) => {
+export const dragendHandler = (event) => {
     removeDropzones();
 };
 
@@ -16,23 +18,21 @@ const dragoverHandler = (event) => {
 
 const dropHandler = (event) => {
     event.preventDefault();
-    const draggableZone = getById('draggable-zone');
     const data = event.dataTransfer.getData("text/plain");
-    draggableZone.replaceChild(getById(data), event.target);
+    contentField.replaceChild(getById(data), event.target);
 };
 
 const addDropZones = () => {
-    const draggableZone = getById('draggable-zone');
     let i = 0;
-    for (const childNode of getByClass('draggable')) {
+    for (const childNode of contentField.getElementsByClassName('paragraph-field')) {
         const newDropZone = createDropZone();
         newDropZone.id = `dropzone-${i}`;
-        draggableZone.insertBefore(newDropZone, childNode);
+        contentField.insertBefore(newDropZone, childNode);
         i++;
     }
     const lastDropZone = createDropZone();
     lastDropZone.id = `dropzone-${i}`;
-    draggableZone.appendChild(lastDropZone);
+    contentField.appendChild(lastDropZone);
 };
 
 const removeDropzones = () => {
@@ -48,12 +48,3 @@ const createDropZone = () => {
     dropZone.addEventListener('dragover', (event) => dragoverHandler(event));
     return dropZone;
 };
-
-const onReady = () => {
-    for (const draggableItem of getByClass('draggable')) {
-        draggableItem.addEventListener('dragstart', (event) => dragstartHandler(event));
-        draggableItem.addEventListener('dragend', (event) => dragendHandler(event));
-    }
-};
-
-ready(onReady);

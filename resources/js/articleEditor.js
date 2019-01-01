@@ -2,6 +2,7 @@ import {getByClass, getById, ready, remove} from "./toolbox.js";
 import {createNewParagraphField, createNewTextareaField} from "./paragraphsFormatter.js";
 import {addNewParagraphToContentField} from "./paragraphsCreator.js";
 import {HTTPVerbs, makeAjaxRequest} from "./ajax.js";
+import {dragendHandler, dragstartHandler} from "./draggingToolbox.js";
 
 const contentField = getById('content-field');
 const addParagraphButton = getById('add-paragraph-button');
@@ -31,6 +32,10 @@ const onReady = () => {
         const newTextarea = addNewParagraphToContentField();
         newTextarea.addEventListener('keydown', (event) => onTextareaKeyup(event, newTextarea));
     });
+    for (const paragraphField of getByClass('paragraph-field')) {
+        paragraphField.addEventListener('dragstart', (event) => dragstartHandler(event));
+        paragraphField.addEventListener('dragend', (event) => dragendHandler(event));
+    }
 };
 
 /**

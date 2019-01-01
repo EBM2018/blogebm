@@ -40,7 +40,7 @@
                     <label class="label">{{ __("blogebm.content") }}</label>
                     <div class="field" id="content-field">
                         @foreach ($article->paragraphs as $paragraph)
-                        <div class="field has-addons paragraph-field" id="paragraph-field-{{$paragraph->id}}">
+                        <div class="field has-addons paragraph-field" draggable="true" id="paragraph-field-{{$paragraph->id}}">
                             <p class="lecture-mode-paragraph paragraph" data-type="old" data-id="{{$paragraph->id}}">{{$paragraph->content}}</p>
                         </div>
                         @endforeach
@@ -54,11 +54,6 @@
                         </div>
                     </div>
                 </form>
-                <div id="draggable-zone">
-                    <div id="t1" class="draggable" draggable="true"><p>test1</p></div>
-                    <div id="t2" class="draggable" draggable="true"><p>test2</p></div>
-                    <div id="t3" class="draggable" draggable="true"><p>test3</p></div>
-                </div>
             </div>
         </div>
     </div>
@@ -66,5 +61,4 @@
 
 @push('scripts')
     <script type="text/javascript" src="{{ asset('js/articleEditor.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/draggingToolbox.js') }}"></script>
 @endpush
