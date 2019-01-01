@@ -60,6 +60,17 @@ class ParagraphController extends Controller
 
     public function destroy (DestroyParagraphRequest $request, $article_id, $paragraph_id) {
         // Receive the id of the paragraph to delete
-        Paragraph::destroy($paragraph_id);
+        DB::transaction(function() use($article_id, $paragraph_id) {
+            Paragraph::destroy($paragraph_id);
+            $paragraphs = Paragraph::where('article_id', $article_id)->get();
+
+            // Reorder paragraphs
+            $order = 1;
+            foreach ($paragraphs as $paragraph) {
+                $paragraph->update(['order' => $order]);
+                $order++;
+            }
+        });
+
     }
 }
