@@ -50,7 +50,7 @@
                             <a class="button is-primary" id="add-paragraph-button" type="submit">{{ __("blogebm.add_paragraph") }}</a>
                         </div>
                         <div class="control is-expanded">
-                            <input class="input" id="new-paragraph-initial-input" placeholder="{{ __("blogebm.initial_content") }}"/>
+                            <input class="input" id="new-paragraph-initial-input" placeholder="{{ __("blogebm.initial_content") }}" onkeydown="if (event.key === 'Enter') event.preventDefault()"/>
                         </div>
                     </div>
                 </form>
