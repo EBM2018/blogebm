@@ -54,6 +54,11 @@
                         </div>
                     </div>
                 </form>
+                <div id="draggable-zone">
+                    <div id="t1" class="draggable" draggable="true"><p>test1</p></div>
+                    <div id="t2" class="draggable" draggable="true"><p>test2</p></div>
+                    <div id="t3" class="draggable" draggable="true"><p>test3</p></div>
+                </div>
             </div>
         </div>
     </div>
@@ -61,4 +66,5 @@
 
 @push('scripts')
     <script type="text/javascript" src="{{ asset('js/articleEditor.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/draggingToolbox.js') }}"></script>
 @endpush
