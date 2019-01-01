@@ -32,9 +32,10 @@ const onReady = () => {
         paragraph.addEventListener('click', () => replaceParagraphWithTextarea(paragraph));
     addParagraphButton.addEventListener('click', () => {
         const newTextarea = addNewParagraphToContentField();
+        const newCloseButton = newTextarea.parentElement.parentElement.getElementsByClassName("close-paragraph-button")[0];
         newTextarea.addEventListener('keydown', (event) => onTextareaKeyup(event, newTextarea));
-        numberOfParagraphsUnderEdition++;
-        enableDragAndDrop(false);
+        newCloseButton.addEventListener('click', () => updateParagraphsCounter(-1));
+        updateParagraphsCounter(1);
     });
     for (const paragraphField of getByClass('paragraph-field')) {
         paragraphField.addEventListener('dragstart', (event) => dragstartHandler(
@@ -151,7 +152,10 @@ const replaceParagraphWithTextarea = (paragraphNode) => {
         sendRequest(
             requestTypes.DELETE_PARAGRAPH,
             {_token: getCsrfToken()},
-            () => remove(getById(`paragraph-field-${id}`)),
+            () => {
+                remove(getById(`paragraph-field-${id}`));
+                updateParagraphsCounter(-1);
+            },
             id
         );
     });
@@ -160,8 +164,7 @@ const replaceParagraphWithTextarea = (paragraphNode) => {
     // Add Enter key listener
     newTextarea.addEventListener('keydown', (event) => onTextareaKeyup(event, newTextarea));
 
-    numberOfParagraphsUnderEdition++;
-    enableDragAndDrop(false);
+    updateParagraphsCounter(1);
 };
 
 /**
@@ -196,8 +199,7 @@ const replaceTextareaWithParagraph = (paragraphTextarea, newId) => {
         prepareOrderChangeRequest));
     newParagraphField.addEventListener('dragend', (event) => dragendHandler(event));
 
-    numberOfParagraphsUnderEdition--;
-    if (numberOfParagraphsUnderEdition === 0) enableDragAndDrop(true);
+    updateParagraphsCounter(-1);
 };
 
 /**
@@ -216,6 +218,15 @@ const getCsrfToken = () => {
 const enableDragAndDrop = (bool) => {
     const paragraphFields = getByClass('paragraph-field');
     for (const paragraphField of paragraphFields) paragraphField.draggable = bool;
+};
+
+/**
+ * Updates the paragraphs counter with an incremental value and checks if drag and drop has to be disabled or re-enabled
+ * @param {int} increment
+ */
+const updateParagraphsCounter = (increment) => {
+    numberOfParagraphsUnderEdition += increment;
+    enableDragAndDrop(numberOfParagraphsUnderEdition === 0);
 };
 
 /**
