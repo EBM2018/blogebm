@@ -37,7 +37,11 @@ const onReady = () => {
         enableDragAndDrop(false);
     });
     for (const paragraphField of getByClass('paragraph-field')) {
-        paragraphField.addEventListener('dragstart', (event) => dragstartHandler(event, 'paragraph-field', contentField));
+        paragraphField.addEventListener('dragstart', (event) => dragstartHandler(
+            event,
+            'paragraph-field',
+            contentField,
+            prepareOrderChangeRequest));
         paragraphField.addEventListener('dragend', (event) => dragendHandler(event));
     }
 };
@@ -59,6 +63,13 @@ const onTextareaKeyup = (event, textarea) => {
             textarea.dataset.id
         );
     }
+};
+
+/**
+ * Prepares a paragraphs order change request
+ */
+const prepareOrderChangeRequest = () => {
+    console.log("request !");
 };
 
 /**
@@ -150,7 +161,11 @@ const replaceTextareaWithParagraph = (paragraphTextarea, newId) => {
 
     // Add dragging logic
     newParagraphField.draggable = true;
-    newParagraphField.addEventListener('dragstart', (event) => dragstartHandler(event, 'paragraph-field', contentField));
+    newParagraphField.addEventListener('dragstart', (event) => dragstartHandler(
+        event,
+        'paragraph-field',
+        contentField,
+        prepareOrderChangeRequest));
     newParagraphField.addEventListener('dragend', (event) => dragendHandler(event));
 
     numberOfParagraphsUnderEdition--;
