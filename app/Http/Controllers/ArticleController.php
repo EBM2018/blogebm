@@ -65,8 +65,6 @@ class ArticleController extends Controller
         $article = Article::with('author')->where('id', $id)->first();
         if ($article === null) return abort(404);
         if (Auth::user()->id !== $article->author->id) return abort(403);
-        DB::transaction(function () use ($id) {
-            Article::destroy($id);
-        });
+        Article::destroy($id);
     }
 }

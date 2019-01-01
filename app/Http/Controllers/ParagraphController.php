@@ -46,9 +46,7 @@ class ParagraphController extends Controller
 
     public function update ($article_id, $paragraph_id, UpdateParagraphRequest $request) {
         // Receive a paragraph id with the new content
-        DB::transaction(function() use($paragraph_id) {
-            Paragraph::where('id', $paragraph_id)->update(['content' => request('content')]);
-        });
+        Paragraph::where('id', $paragraph_id)->update(['content' => request('content')]);
     }
 
     public function order ($article_id) {
@@ -62,8 +60,6 @@ class ParagraphController extends Controller
 
     public function destroy ($article_id, $paragraph_id) {
         // Receive the id of the paragraph to delete
-        DB::transaction(function() use($paragraph_id) {
-            Paragraph::destroy($paragraph_id);
-        });
+        Paragraph::destroy($paragraph_id);
     }
 }
