@@ -21,6 +21,8 @@ const requestTypes = {
     DELETE_PARAGRAPH: 3
 };
 
+let numberOfParagraphsUnderEdition = 0;
+
 /**
  * The entry function called when DOM loading is finished.
  */
@@ -31,6 +33,8 @@ const onReady = () => {
     addParagraphButton.addEventListener('click', () => {
         const newTextarea = addNewParagraphToContentField();
         newTextarea.addEventListener('keydown', (event) => onTextareaKeyup(event, newTextarea));
+        numberOfParagraphsUnderEdition++;
+        enableDragAndDrop(false);
     });
     for (const paragraphField of getByClass('paragraph-field')) {
         paragraphField.addEventListener('dragstart', (event) => dragstartHandler(event));
@@ -116,6 +120,9 @@ const replaceParagraphWithTextarea = (paragraphNode) => {
 
     // Add Enter key listener
     newTextarea.addEventListener('keydown', (event) => onTextareaKeyup(event, newTextarea));
+
+    numberOfParagraphsUnderEdition++;
+    enableDragAndDrop(false);
 };
 
 /**
@@ -140,6 +147,9 @@ const replaceTextareaWithParagraph = (paragraphTextarea, newId) => {
 
     // Add click listener
     newParagraph.addEventListener('click', () => replaceParagraphWithTextarea(newParagraph));
+
+    numberOfParagraphsUnderEdition--;
+    if (numberOfParagraphsUnderEdition === 0) enableDragAndDrop(true);
 };
 
 /**
@@ -149,6 +159,15 @@ const replaceTextareaWithParagraph = (paragraphTextarea, newId) => {
 const getCsrfToken = () => {
     const serializedForm = Array.from(new FormData(articleEditionForm));
     return serializedForm[0][1];
+};
+
+/**
+ * Enables or disables drag and drop for paragraphs
+ * @param {boolean} bool If true, paragraphs are made draggable. If false, paragraphs are no longer draggable.
+ */
+const enableDragAndDrop = (bool) => {
+    const paragraphFields = getByClass('paragraph-field');
+    for (const paragraphField of paragraphFields) paragraphField.draggable = bool;
 };
 
 /**
