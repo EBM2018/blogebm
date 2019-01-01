@@ -7,7 +7,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Lang;
 
-class StoreParagraphRequest extends FormRequest
+class EditArticleRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -16,7 +16,7 @@ class StoreParagraphRequest extends FormRequest
      */
     public function authorize()
     {
-        $article = Article::find($this->route('article_id'));
+        $article = Article::find($this->route('id'));
         return $article && Auth::user()->id === $article->author_id;
     }
 
@@ -28,8 +28,7 @@ class StoreParagraphRequest extends FormRequest
     public function rules()
     {
         return [
-            'article_id' => 'required|integer|exists:articles,id',
-            'content' => 'required|string',
+            'id' => 'required|integer|exists:articles,id',
         ];
     }
 
@@ -37,7 +36,7 @@ class StoreParagraphRequest extends FormRequest
     public function all($keys = null)
     {
         $data = parent::all($keys);
-        $data['article_id'] = $this->route('article_id');
+        $data['id'] = $this->route('id');
         return $data;
     }
 

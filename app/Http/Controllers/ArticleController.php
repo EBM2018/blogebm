@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Article;
+use App\Http\Requests\DestroyArticleRequest;
+use App\Http\Requests\EditArticleRequest;
 use App\Http\Requests\StoreArticleRequest;
 use App\Paragraph;
 use Illuminate\Http\Request;
@@ -48,11 +50,10 @@ class ArticleController extends Controller
         });
     }
 
-    public function edit($id)
+    public function edit(EditArticleRequest $request, $id)
     {
         $article = Article::with(['paragraphs', 'author'])->where('id', $id)->first();
-        if (Auth::user()->id === $article->author->id) return view('article.edit', compact('article'));
-        return abort(403); // Authorized to access the edit page of an article a user doesn't own
+        return view('article.edit', compact('article'));
     }
 
     public function update()
@@ -60,11 +61,8 @@ class ArticleController extends Controller
         // TODO: Change title / summary
     }
 
-    public function destroy($id)
+    public function destroy(DestroyArticleRequest $request, $id)
     {
-        $article = Article::with('author')->where('id', $id)->first();
-        if ($article === null) return abort(404);
-        if (Auth::user()->id !== $article->author->id) return abort(403);
         Article::destroy($id);
     }
 }

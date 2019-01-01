@@ -2,12 +2,24 @@
 
 namespace App\Http\Requests;
 
+use App\Article;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Lang;
 
 class UpdateParagraphRequest extends FormRequest
 {
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        $article = Article::find($this->route('article_id'));
+        return $article && Auth::user()->id === $article->author_id;
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -16,8 +28,18 @@ class UpdateParagraphRequest extends FormRequest
     public function rules()
     {
         return [
+            'article_id' => 'required|integer|exists:articles,id',
+            'paragraph_id' => 'required|integer|exists:paragraphs,id|is_part_of_article:article_id',
             'content' => 'required|string',
         ];
+    }
+
+    public function all($keys = null)
+    {
+        $data = parent::all($keys);
+        $data['article_id'] = $this->route('article_id');
+        $data['paragraph_id'] = $this->route('paragraph_id');
+        return $data;
     }
 
     /**

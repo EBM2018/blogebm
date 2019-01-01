@@ -7,7 +7,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Lang;
 
-class StoreParagraphRequest extends FormRequest
+class DestroyParagraphRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -29,15 +29,15 @@ class StoreParagraphRequest extends FormRequest
     {
         return [
             'article_id' => 'required|integer|exists:articles,id',
-            'content' => 'required|string',
+            'paragraph_id' => 'required|integer|exists:paragraphs,id|is_part_of_article:article_id'
         ];
     }
-
 
     public function all($keys = null)
     {
         $data = parent::all($keys);
         $data['article_id'] = $this->route('article_id');
+        $data['paragraph_id'] = $this->route('paragraph_id');
         return $data;
     }
 

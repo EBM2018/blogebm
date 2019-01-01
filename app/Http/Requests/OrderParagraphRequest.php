@@ -7,7 +7,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Lang;
 
-class StoreParagraphRequest extends FormRequest
+class OrderParagraphRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -29,10 +29,11 @@ class StoreParagraphRequest extends FormRequest
     {
         return [
             'article_id' => 'required|integer|exists:articles,id',
-            'content' => 'required|string',
+            'paragraphs' => 'required|array|is_order_list_valid',
+            'paragraphs.*.id' => 'required|integer|exists:paragraphs,id|is_part_of_article:article_id',
+            'paragraphs.*.order' => 'required|integer'
         ];
     }
-
 
     public function all($keys = null)
     {
