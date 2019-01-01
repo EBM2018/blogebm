@@ -15,7 +15,7 @@ export const addNewParagraphToContentField = () => {
     paragraphsIDs.push(newParagraphID);
 
     // Add the new paragraph field
-    const newParagraphField = createNewTextareaField({isNew: true, id: newParagraphID});
+    const newParagraphField = createNewTextareaField({isNew: true, id: newParagraphID, noclose: false});
     contentField.appendChild(newParagraphField);
     const newTextarea = newParagraphField.getElementsByClassName("paragraph")[0];
 

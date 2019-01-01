@@ -2,7 +2,7 @@ import {getById, remove} from "./toolbox.js";
 
 /**
  * Creates a new textarea DOM element
- * @param {{isNew: boolean, id: int}} params
+ * @param {{isNew: boolean, id: int, noclose: boolean}} params
  * @returns {Element}
  */
 export const createNewTextareaField = (params) => {
@@ -21,7 +21,7 @@ export const createNewTextareaField = (params) => {
     newField.appendChild(closeButtonSubnode);
 
     // Add listener to close paragraph button
-    closeButton.addEventListener('click', () => remove(getById(`paragraph-field-${params.id}`)));
+    if (!params.noclose) closeButton.addEventListener('click', () => remove(getById(`paragraph-field-${params.id}`)));
 
     // Add listeners related to close button visibility
     newField.addEventListener('mouseenter', () => closeButtonSubnode.style.display = null);

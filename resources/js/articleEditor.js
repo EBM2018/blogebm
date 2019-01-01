@@ -1,4 +1,4 @@
-import {getByClass, getById, ready} from "./toolbox.js";
+import {getByClass, getById, ready, remove} from "./toolbox.js";
 import {createNewParagraphField, createNewTextareaField} from "./paragraphsFormatter.js";
 import {addNewParagraphToContentField} from "./paragraphsCreator.js";
 import {HTTPVerbs, makeAjaxRequest} from "./ajax.js";
@@ -95,9 +95,18 @@ const replaceParagraphWithTextarea = (paragraphNode) => {
 
     // Replace paragraph node
     const paragraphField = getById(`paragraph-field-${id}`);
-    const newParagraphField = createNewTextareaField({isNew: false, id: id});
+    const newParagraphField = createNewTextareaField({isNew: false, id: id, noclose: true});
     const newTextarea = newParagraphField.getElementsByClassName("paragraph")[0];
+    const newParagraphCloseButton = newParagraphField.getElementsByClassName("close-paragraph-button")[0];
     newTextarea.value = content;
+    newParagraphCloseButton.addEventListener('click', () => {
+        sendRequest(
+            requestTypes.DELETE_PARAGRAPH,
+            {_token: getCsrfToken()},
+            () => remove(getById(`paragraph-field-${id}`)),
+            id
+        );
+    });
     contentField.replaceChild(newParagraphField, paragraphField);
 
     // Add Enter key listener
