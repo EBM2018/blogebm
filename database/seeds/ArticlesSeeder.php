@@ -15,8 +15,8 @@ class ArticlesSeeder extends Seeder
     {
         Schema::disableForeignKeyConstraints();
         Article::create([
-            'title' => 'Théorie du complot : les chatons ont envahi le monde',
-            'summary' => 'De plus en plus nombreux dans les familles mais aussi dans la rue, les chatons s\'organisent pour dominer le monde',
+            'title' => 'Théorie du complot : les Maestro ont envahi le monde',
+            'summary' => 'De plus en plus nombreux dans les familles mais aussi dans l\'école, les Maestro s\'organisent pour dominer le monde',
             'author_id' => 1
         ]);
         Article::create([
@@ -26,7 +26,7 @@ class ArticlesSeeder extends Seeder
         ]);
         Article::create([
             'title' => 'Pikachu et Bakura sont de retour',
-            'summary' => 'Dans la classe EBM, les émulateurs font rage. Yu-Gi-Oh et Pokémon sont au coeur des esprits. Facebook a du souci à se faire...',
+            'summary' => 'Dans la classe EBM, les émulateurs font rage. Yu-Gi-Oh et Pokémon sont au coeur des esprits. Pour certains, c\'est toujours l\'heure du duel...',
             'author_id' => 1
         ]);
         Schema::enableForeignKeyConstraints();

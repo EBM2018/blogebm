@@ -15,9 +15,9 @@ class UsersSeeder extends Seeder
     {
         Schema::disableForeignKeyConstraints();
         User::create([
-            'name' => 'BDH',
-            'email' => 'BDH@ebm.centralelille.fr',
-            'password' => bcrypt('I<3JPB'),
+            'name' => 'EBM',
+            'email' => 'EBM@EBM.ebm',
+            'password' => bcrypt('hamzaoutai'),
         ]);
         Schema::enableForeignKeyConstraints();
     }
