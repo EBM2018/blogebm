@@ -198,8 +198,17 @@ Dans le cas où on souhaite envoyer du HTML, par exemple la méthode ```show``` 
 On se rend alors dans ```resources/views/article/show.blade.php```. Il s'agit d'un fichier de template Blade à partir duquel sera produit le fichier HTML finale.  
 Ce template étend le template générale "Template" en en complétant certaines sections, les traitements PHP sont balisés par ```{{ }}``` ou abrégés des ```@quelquechose```.  
 On remarque qu'on y manipule directement la variable ```article``` que nous avons compacté avec la vue dans le contrôler.  
-Une fois tout le contenu agrégé et l'arbre de templates remonté, le tout est servi au client.
+Une fois tout le contenu agrégé et l'arbre de templates remonté, le tout est servi au client.  
 
+###### Gestion du texte statique
+
+Vous remarquerez la présence de ce genres d'appels de fonctions PHP dans les templates ```__('Delete')```, il s'agit en fait d'un appel au gestionnaire de traduction.
+Au lieu de mettre en clair du texte dans les vues, on les renseigne dans des listes. Ainsi on peut avoir les listes dans différentes langues et il suffit de changer la configuration de l'application, côté serveur ou plutôt en général client, pour voir les chaînes de caractères de sa propre langue.  
+Ces chaines de caractères sont stockées sous ```resources/lang```, il y en a deux types :
+* Celles listées dans des fichier json comme ```fr.json``` sont de simples transpositions version anglaise -> version française
+* Celles listées dans des fichiers php comme ```blogebm.php``` dans les dossiers fr et en, qui fonctionnent par correspondance {mot clé} -> {chaine de caractères}, de plus ces versions peuvent être "à trou" où des mots seront remplacés selon le contexte.
+    * Par exemple ```{{ __('blogebm.last_updated_on', ['date' => $article->updated_at->format('d/m/Y')]) }}``` de la vue ```article/edit.blade.php``` fait appel à cette chaine ```'dernière mise à jour le :date'``` en remplaçant ```:date``` par le paramètre passé.
+    
 ##### Cas d'une règle de validation complexe
 
 Dans certains cas, les règles de validation proposées par Laravel ne sont pas suffisantes contrairement au cas vu dans la partie Validation.  
@@ -212,3 +221,45 @@ Validator::extend('is_part_of_article', 'App\Validators\IsPartOfArticle@validate
 Validator::extend('is_order_list_valid', 'App\Validators\IsOrderListValid@validate');
 ```  
 On remarque alors que la logique de ses règles de validation est stockée sous ```App\Validators```.
+
+### Front-End
+
+#### Points d'entrées
+
+Tout d'abord, comme on peut le voir dans la vue ```template``` dont dérive les autres, le script ```common.js``` y est appelé.  
+Il s'agit simplement dans ce fichier d'importer Bulma et la feuille de style commune du site (trouvables dans le dossiers ```resources``` également).  
+La page de création d'article a pour script principal ```articleCreator.js``` et la page d'édition d'article a pour script principal ```articleEditor.js```.
+
+#### Toolboxes
+
+D'autres scripts gravitent autour de ces deux scripts principaux :
+* ```toolbox.js``` contient des fonctions de base remplaçant leurs homologues bien utiles en ```jQuery```.
+* ```ajax.js``` contient des fonctions permettant de préparer simplement des requêtes Ajax.
+* ```draggingToolbox.js``` contient des fonctions relatives au Drag and Drop.
+
+#### Paragraphs managers
+
+* ```paragraphsCreator.js``` contient la logique derrière la création d'un paragraphe (quand on appuie sur le bouton "Ajouter un paragraphe")
+* ```paragraphsFormatter.js``` contient la logique de création d'éléments du DOM (les textareas et paragraphes)
+
+#### Fonctionnement du Drag and Drop
+
+Le code est plutôt bien commenté, je vais uniquement m'attarder sur l'explication de l'architecture derrière le Drag and Drop sans jQuery.  
+On explique donc ici le contenu du fichier ```draggingToolbox.js```.
+* Les éléments HTML deviennent glissables (draggable) simplement en leur fournissant l'attribut ```draggable=true``` dans leur balise.
+* On écoute l'évènement ```dragstart``` pour remarquer quand l'utilisateur souhaite faire glisser un élément glissable
+* On ajoute à l'évènement attrapé des informations (ici on donne l'id de l'élément déplacé pour le retrouver quand on va déclencher l'évènement de drop)
+* On crée des zones de drop pour l'élément, il s'agit de divs dont on va écouter l'évènement ```drop```
+* Quand un div reçoit l'évènement ```drop```, on demande au navigateur de remplacer l'élément ayant subi le ```drop``` par l'élément ayant été glissé (référencé par son id dans l'évènement)
+* On supprime toutes les autres zones de drop (quand l'évènement ```dragend``` est déclenché)
+* Notre élément a bien été déplacé
+* (L'évènement ```dragover``` est simplement là pour gérer l'animation)
+
+## Améliorations possibles
+
+* Permettre la modification du titre et du résumé d'un article
+* Limiter le nombre d'articles postés par un seul utilisateur pour éviter le spam (surtout que n'importe qui peut s'inscrire)
+* Permettre le déplacement de paragraphes en création d'article
+* Créer un rôle administrateur pouvant supprimer n'importe quel article
+* Faire apparaitre des messages d'erreur quand les requêtes échouent (sous les champs concernés), actuellement les erreurs sont affichées dans la console pour montrer qu'il serait facile de les utiliser
+* Ajouter des messages de validation plus précis sur la nature des erreurs rencontrées (cela se fait de la même façon que les fichiers de traduction)
