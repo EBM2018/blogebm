@@ -24,6 +24,6 @@ Route::get('articles/{id}/edit', 'ArticleController@edit')->name('article.edit')
 Route::patch('articles/{id}', 'ArticleController@update')->name('article.update');
 Route::delete('articles/{id}', 'ArticleController@destroy')->name('article.destroy');
 Route::post('articles/{article_id}/paragraphs', 'ParagraphController@store')->name('paragraph.store');
-Route::patch('articles/{article_id}/paragraphs/{paragraph_id}', 'ParagraphController@update')->name('paragraph.patch');
+Route::patch('articles/{article_id}/paragraphs/{paragraph_id}', 'ParagraphController@update')->name('paragraph.update');
 Route::patch('articles/{article_id}/paragraphs', 'ParagraphController@order')->name('paragraph.order');
 Route::delete('articles/{article_id}/paragraphs/{paragraph_id}', 'ParagraphController@destroy')->name('paragraph.destroy');
