@@ -222,6 +222,23 @@ Validator::extend('is_order_list_valid', 'App\Validators\IsOrderListValid@valida
 ```  
 On remarque alors que la logique de ses règles de validation est stockée sous ```App\Validators```.
 
+#### Présentation de l'API
+
+L'API est pensée RESTful, on réalise donc des opérations CRUD sur 2 resources : Les articles et les paragraphes.
+Voici une description des différentes routes définies pour cette application :
+* La route ```home``` => Requête GET sur ```/``` ou ```/articles``` : Page d'accueil
+* La route ```article.show``` => Requête GET sur ```/articles/{id}``` avec ```id``` l'id de l'article : Page de lecture d'un article
+* La route ```article.edit``` => Requête GET sur ```/articles/{id}/edit``` : Page d'édition d'un article
+* La route ```article.create``` => Requête GET sur ```/articles/create``` : Page de création d'un article
+* La route ```article.store``` => Requête POST sur ```/articles``` : Stockage d'un nouvel article
+* La route ```article.update``` => Requête PATCH sur ```/articles/{id}``` : Mise à jour d'un article (titre, sommaire), non utilisé
+* La route ```article.destroy``` => Requête DELETE sur ```/articles/{id}``` : Suppression d'un article
+* La route ```paragraph.store``` => Requête POST sur ```/articles/{id}/paragraphs``` : Stockage d'un nouveau paragraphe
+* La route ```paragraph.order``` => Requête non-CRUD PATCH sur ```/articles/{id}/paragraphs``` avec ```id``` l'id de l'article : Réorganisation des paragraphes d'un article
+* La route ```paragraph.update``` => Requête PATCH sur ```/articles/{article_id}/paragraphs/{paragraph_id}```  : Mise à jour d'un paragraphe
+* La route ```paragraph.destroy``` => Requête DELETE sur ```/articles/{article_id}/paragraphs/{paragraph_id}```  : Suppression d'un paragraphe
+
+
 ### Front-End
 
 #### Points d'entrées
